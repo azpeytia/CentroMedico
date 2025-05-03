@@ -1,0 +1,27 @@
+html, body {
+    height: 100%; /* Asegura que el HTML y el body ocupen toda la altura */
+    margin: 0; /* Elimina márgenes predeterminados */
+    display: flex; /* Flexbox para alinear el contenido */
+    flex-direction: column; /* Asegura que el header y footer estén en la parte superior e inferior */
+}
+
+.container-fluid {
+    display: flex; /* Flexbox para alinear el sidebar y el contenido principal */
+    flex: 1; /* Permite que el contenido principal ocupe el espacio restante */
+}
+
+.sidebar {
+    height: auto; /* Ajusta la altura automáticamente */
+    position: relative; /* Cambia de fixed a relative para que forme parte del flujo */
+    width: 250px; /* Define un ancho fijo para el sidebar */
+    border-right: 1px solid #ddd;
+}
+
+.main-content {
+    flex: 1; /* Permite que el contenido principal ocupe el espacio restante */
+    padding: 1rem; /* Agrega un poco de espacio interno */
+}
+
+.header, .footer {
+    width: 100%; /* Asegura que ocupen todo el ancho */
+}

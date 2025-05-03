@@ -1,0 +1,57 @@
+/* Navbar */
+.navbar-custom {
+    background-color: #E3D5B8; /* Color de fondo del navbar */
+    border-top: 1px solid black; /* Borde superior */
+    border-bottom: 1px solid black; /* Borde inferior */
+    z-index: 1030; /* Asegura que el navbar esté sobre otros elementos */
+    height: 56px; /* Altura fija del navbar */
+}
+
+/* Ajustar el espaciado entre el botón hamburguesa y la marca */
+.navbar-custom #sidebarToggle {
+    margin-right: 5px; /* Espacio a la derecha del botón */
+}
+
+.navbar-custom .navbar-brand {
+    margin-left: 5px; /* Espacio a la izquierda de la marca */
+}
+
+.navbar-custom .d-flex.align-items-center a.nav-link {
+    margin-left: 15px; /* Espaciado entre los enlaces */
+}
+
+/* Estilo personalizado para el botón del menú desplegable en pantallas pequeñas */
+.navbar-custom .dropdown-toggle {
+    background-color: #D16641; /* Fondo personalizado */
+    border: 2px solid #B14A2C; /* Borde sólido */
+    border-radius: 8px; /* Bordes redondeados */
+    color: #FFF; /* Color del ícono */
+    font-size: 1.25rem; /* Tamaño del ícono */
+    padding: 0.25rem 0.5rem; /* Espaciado interno */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra alrededor del botón */
+}
+
+.navbar-custom .dropdown-menu {
+    background-color: #E3D5B8; /* Fondo del menú desplegable */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    margin-top: 6px; /* Ajusta la posición vertical del menú */
+}
+
+.navbar-custom .dropdown-menu .dropdown-item {
+    color: #495057; /* Color del texto */
+    padding: 0.5rem 1rem; /* Espaciado interno */
+}
+
+.navbar-custom .dropdown-menu .dropdown-item:hover {
+    background-color: #D16641; /* Fondo al pasar el mouse */
+    color: #fff; /* Color del texto al pasar el mouse */
+}
+
+/* Footer */
+.footer-custom {
+    padding: 0.5rem 0; /* Padding vertical del footer */
+    background-color: #E3D5B8; /* Color de fondo del footer */
+    border-top: 1px solid black; /* Borde superior */
+    flex-shrink: 0; /* Evita que el footer empuje otros elementos */
+}
