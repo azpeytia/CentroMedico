@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
     <!-- Bootstrap 5.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom Styles -->
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/welcome.css') }}" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
@@ -22,7 +22,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ url('/') }}">Inicio</a>
+                            <a class="nav-link" href="{{ url('/') }}">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/about') }}">Sobre Nosotros</a>
@@ -65,7 +65,7 @@
         <div class="row mt-4">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body card-custom-bg">
                         <h5 class="card-title">¿Cómo puedes ayudar?</h5>
                         <p class="card-text">Puedes hacer una donación, registrarte como voluntario o simplemente informarte sobre nuestros servicios.</p>
                         <a href="{{ url('/donate') }}" class="btn btn-primary">Donar</a>
