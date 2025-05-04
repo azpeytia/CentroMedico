@@ -17,6 +17,33 @@ header .navbar-brand {
     font-weight: bold;
 }
 
+/* Fondo por defecto para los elementos <li> en la barra de navegación */
+header .navbar-nav .nav-item {
+    background-color: #76AF89;
+    border-radius: 5px;
+    margin: 0 5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Resaltar elementos <li> en la barra de navegación */
+header .navbar-nav .nav-item:hover {
+    background-color: #D3FADE;
+    border-radius: 5px;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+header .navbar-nav .nav-link:hover {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+header .navbar-nav .nav-item .nav-link.active {
+    background-color: #dc3545;
+    color: #fff;
+    border-radius: 5px;
+}
+
 /* Sidebar */
 .sidebar {
     background-color: #A7F594;
@@ -58,6 +85,28 @@ header .navbar-brand {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
+.sidebar .nav-treeview {
+    background-color: #C04A3D;
+    display: none;
+    padding-left: 1rem;
+    /* padding: 0.5rem 1rem; */
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar .nav-item.menu-open > .nav-treeview {
+    display: block;
+}
+
+.sidebar .nav-treeview .nav-link {
+    background-color: #C04A3D;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar .nav-treeview .nav-link:hover {
+    background-color: #B03A2D;
+}
+
 /* Main Content */
 main {
     padding: 2rem 1rem;
@@ -94,7 +143,7 @@ main p {
 .card-title {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #007BFF;
+    color: #555;
 }
 
 .card-text {
@@ -103,8 +152,8 @@ main p {
 }
 
 .card-icon {
-    color: var(--bs-primary); /* Azul Bootstrap */
-    font-size: 2rem;          /* Tamaño como fs-1 */
+    color: var(--bs-primary);
+    font-size: 2rem;
 }
 
 .card-button {
@@ -134,8 +183,8 @@ main p {
 
 .card-img-top {
     border-radius: 10px 10px 0 0;
-    max-height: 200px; /* Limitar la altura de la imagen */
-    object-fit: cover; /* Mantener la proporción de la imagen */
+    max-height: 200px;
+    object-fit: cover;
 }
 
 .card-footer {
