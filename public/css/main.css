@@ -17,37 +17,10 @@ header .navbar-brand {
     font-weight: bold;
 }
 
-/* Fondo por defecto para los elementos <li> en la barra de navegación */
-header .navbar-nav .nav-item {
-    background-color: #76AF89;
-    border-radius: 5px;
-    margin: 0 5px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Resaltar elementos <li> en la barra de navegación */
-header .navbar-nav .nav-item:hover {
-    background-color: #D3FADE;
-    border-radius: 5px;
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-}
-
-header .navbar-nav .nav-link:hover {
-    color: #dc3545;
-    font-weight: bold;
-}
-
-header .navbar-nav .nav-item .nav-link.active {
-    background-color: #dc3545;
-    color: #fff;
-    border-radius: 5px;
-}
-
 /* Sidebar */
-.sidebar {
+aside {
     background-color: #A7F594;
-    height: calc(100vh - 56px);
+    min-height: calc(100vh - 56px - 41px);
     padding-top: 1rem;
     overflow-y: auto;
     overflow-x: hidden;
@@ -55,12 +28,7 @@ header .navbar-nav .nav-item .nav-link.active {
     box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.sidebar-hidden {
-    display: none !important;
-}
-
-/* Links del Sidebar */
-.sidebar .nav-link {
+aside .nav-link {
     background-color: #E07A55;
     color: #FFF;
     font-size: 1rem;
@@ -72,38 +40,39 @@ header .navbar-nav .nav-item .nav-link.active {
     margin-bottom: 0.3rem;
 }
 
-.sidebar .nav-link i {
+aside .nav-link i {
     margin-right: 0.5rem;
 }
 
-.sidebar .nav-link:hover {
+aside .nav-link:hover {
     background-color: #ECA47F;
+    color: #1A5938;
 }
 
-.sidebar .nav-link:focus {
+aside .nav-link:focus {
+    color: #1A5938;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-.sidebar .nav-treeview {
+aside .nav-treeview {
     background-color: #C04A3D;
     display: none;
     padding-left: 1rem;
-    /* padding: 0.5rem 1rem; */
     border-radius: 8px;
     transition: background-color 0.3s ease;
 }
 
-.sidebar .nav-item.menu-open > .nav-treeview {
+aside .nav-item.menu-open > .nav-treeview {
     display: block;
 }
 
-.sidebar .nav-treeview .nav-link {
+aside .nav-treeview .nav-link {
     background-color: #C04A3D;
     transition: background-color 0.3s ease;
 }
 
-.sidebar .nav-treeview .nav-link:hover {
+aside .nav-treeview .nav-link:hover {
     background-color: #B03A2D;
 }
 
@@ -214,9 +183,11 @@ footer {
     background-color: #41C684;
     color: #1A5938;
     text-align: center;
+    padding: 0.5rem 0;
+    height: auto;
 }
 
 footer p {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }

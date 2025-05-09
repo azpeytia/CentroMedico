@@ -15,97 +15,29 @@
 
     @vite(['resources/js/app.js'])
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Header -->
     <header>
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <img src="{{ asset('images/RedCross.png') }}" alt="Logo" width="50" height="30" class="d-inline-block align-top">
-                    Cruz Roja
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="bi bi-gear"></i> Configuración</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <x-navbar />
     </header>
 
     <!-- Main Layout -->
-    <div class="container-fluid">
+    <div class="container-fluid flex-grow-1">
         <div class="row">
             <!-- Sidebar -->
-            <aside class="sidebar col-md-3">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-folder"></i> Catálogos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-box-seam"></i> Inventarios
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="bi bi-clock"></i> Iniciar/Terminar turno
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="bi bi-truck"></i> Surtir inventario
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="bi bi-calculator"></i> Calcular inventario
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="bi bi-sticky"></i> Crear requisición
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-clipboard-heart"></i> Diagnósticos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-file-earmark-medical"></i> Recetas
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-bag-plus"></i> Ventas
-                        </a>
-                    </li>
-                </ul>
+            <aside class="collapse d-md-block col-md-3" id="sidebarMenu">
+                @include('partials.sidebar')
             </aside>
 
             <!-- Main Content -->
-            <main class="main col-md-9 p-4">
+            <main class="main col-md-9">
                 @yield('content')
             </main>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="text-center py-3">
+    <footer class="text-center">
         <p>© 2023 Cruz Roja. Todos los derechos reservados.</p>
     </footer>
 

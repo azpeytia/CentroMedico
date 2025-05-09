@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('.sidebar .nav-item > .nav-link').on('click', function (e) {
+    $('aside .nav-item > .nav-link').on('click', function (e) {
         e.preventDefault(); // Evita el comportamiento predeterminado del enlace
         const parent = $(this).parent('.nav-item');
 
