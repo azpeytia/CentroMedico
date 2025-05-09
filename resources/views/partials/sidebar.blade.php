@@ -1,3 +1,18 @@
+<div class="user-panel">
+    <div class="image">
+        <img src="{{ asset('images/user.jpg') }}" alt="User Image">
+    </div>
+    <div class="info">
+        <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+            @csrf
+            <button type="submit" class="btn btn-link p-0 m-0 align-baseline" style="color: #007bff; text-decoration: none;">
+                Cerrar sesión
+            </button>
+        </form>
+    </div>
+</div>
+
 <ul class="nav flex-column">
     <li class="nav-item">
         <a class="nav-link" href="#">
