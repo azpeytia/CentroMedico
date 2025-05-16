@@ -25,7 +25,7 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('inventories.shift_management') }}">
                     <i class="bi bi-clock"></i> Iniciar/Terminar turno
                 </a>
             </li>

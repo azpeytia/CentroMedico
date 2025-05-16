@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <!-- Custom Styles -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    @stack('styles')
 
     @vite(['resources/js/app.js'])
 </head>
@@ -32,6 +33,14 @@
             <!-- Main Content -->
             <main class="main col-md-9">
                 @yield('content')
+
+                <!-- Inputs escondidos -->
+                <input type="hidden" id="shift_id" value="">
+                <input type="hidden" id="shift_name" value="">
+                <input type="hidden" id="shift_date" value="">
+                <input type="hidden" id="shift_hour" value="">
+                <input type="hidden" id="shift_status" value="">
+                <input type="hidden" id="mysql_date" value="">
             </main>
         </div>
     </div>

@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShiftController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,11 +19,29 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Region inventarios
+    Route::get('/inventories/shift-management', [InventoryController::class, 'shiftManagement'])->name('inventories.shift_management');
+    Route::post('/inventories/save-shift-inventory-information', [InventoryController::class, 'saveShiftInventoryInformation'])->name('inventories.save_shift_inventory_information');
+    Route::patch('/inventories/update-shift-inventory-information', [InventoryController::class, 'updateShiftInventoryInformation'])->name('inventories.update_shift_inventory_information');
+    // Endregion inventarios
+
+    // Region productos
+    Route::get('/products/get-product-information', [ProductController::class, 'getProductInformation'])->name('products.get_product_information');
+    // Endregion productos
+
+    // Region turnos
+    Route::get('/shifts/get-shift-information', [ShiftController::class, 'getShiftInformation'])->name('shifts.get_shift_information');
+    Route::get('/shifts/get-previous-shift-status', [ShiftController::class, 'getPreviousShiftStatus'])->name('shifts.get_previous_shift_status');
+    Route::get('/shifts/get-current-shift-status', [ShiftController::class, 'getCurrentShiftStatus'])->name('shifts.get_current_shift_status');
+    Route::patch('/shifts/update-shift-status', [ShiftController::class, 'updateShiftStatus'])->name('shifts.update_shift_status');
+    Route::patch('/shifts/update-previous-shift-status', [ShiftController::class, 'updatePreviousShiftStatus'])->name('shifts.update_previous_shift_status');
+    // Endregion turnos
 });
 
 Route::post('/logout', function () {
-    Auth::logout(); // Cierra la sesión del usuario
-    return redirect('/'); // Redirige a la página de bienvenida
+    Auth::logout();
+    return redirect('/');
 })->name('logout');
 
 require __DIR__.'/auth.php';

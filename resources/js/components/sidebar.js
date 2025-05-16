@@ -1,6 +1,7 @@
 $(document).ready(function () {
     $('aside .nav-item > .nav-link').on('click', function (e) {
-        e.preventDefault(); // Evita el comportamiento predeterminado del enlace
+        // Evita el comportamiento predeterminado del enlace
+        //e.preventDefault();
         const parent = $(this).parent('.nav-item');
 
         // Alternar la clase 'menu-open' en el elemento padre
