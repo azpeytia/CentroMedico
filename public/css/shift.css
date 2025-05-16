@@ -6,3 +6,35 @@
     border-radius: 10px 10px 0 0;
     text-align: center;
 }
+
+.card:hover {
+    transform: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#btnStartShift {
+    color: white;
+}
+
+#btnStartShift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+#btnEndShift {
+    color: white;
+}
+
+#btnEndShift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+#btnInventoryRequest {
+    color: white;
+}
+
+#btnInventoryRequest:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}

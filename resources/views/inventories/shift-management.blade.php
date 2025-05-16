@@ -271,7 +271,7 @@
     }
 
     function runInventoryRequest() {
-        /* $('#btnInventoryRequest').click(async function(event) {
+        $('#btnInventoryRequest').click(async function(event) {
             event.preventDefault();
 
             const eventRecord = {
@@ -342,6 +342,6 @@
             } catch (error) {
                 swalResponse(error);
             }
-        }); */
+        });
     }
 </script>

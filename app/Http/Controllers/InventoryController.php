@@ -72,4 +72,30 @@ class InventoryController extends Controller
         $eventResultDTO->message = 'Se ha terminado el turno de inventarios exitosamente';
         return response()->json($eventResultDTO);
     }
+
+    public function getInventoryRequestInformation (Request $request, Inventory $inventory, EventResultDTO $eventResultDTO) {
+        $shiftId = $request->input('eventRecord.shiftId');
+        $shiftDate = $request->input('eventRecord.shiftDate');
+
+        try {
+            $eventResultDTO->values['inventoryRequestRecords'] = $inventory->with('product:id,name,presentation')
+            ->where('shift_id', $shiftId)
+            ->where('date', $shiftDate)
+            //->where('is_finished', 1)
+            ->get();
+
+            if ($eventResultDTO->values['inventoryRequestRecords']) {
+                $eventResultDTO->result = true;
+                $eventResultDTO->message = 'Se va a generar la requisición';
+            } else {
+                $eventResultDTO->result = false;
+                $eventResultDTO->message = 'No se generar la requisición';
+            }
+        } catch (\Exception $e) {
+            $eventResultDTO->result = false;
+            $eventResultDTO->message = 'Error  ' . $e->getMessage();
+            return response()->json($eventResultDTO);
+        }
+        return response()->json($eventResultDTO);
+    }
 }

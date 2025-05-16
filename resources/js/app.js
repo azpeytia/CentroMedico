@@ -1,6 +1,7 @@
 // 1. Dependencias externas
 import Alpine from 'alpinejs';
 import Swal from 'sweetalert2';
+import ExcelJS from 'exceljs';
 
 // 2. Archivos internos
 import './bootstrap';
@@ -11,6 +12,7 @@ import { swalResponse } from './helpers/swalHelper';
 import {
     save_shift_inventory_information,
     update_shift_inventory_information,
+    get_inventory_request_information,
 } from './services/inventoryService';
 import {
     get_product_information,
@@ -27,10 +29,12 @@ import {
 window.Alpine = Alpine;
 window.Swal = Swal;
 window.swalResponse = swalResponse;
+window.ExcelJS = ExcelJS;
 
 // Configuración global Region inventarios
 window.save_shift_inventory_information = save_shift_inventory_information;
 window.update_shift_inventory_information = update_shift_inventory_information;
+window.get_inventory_request_information = get_inventory_request_information;
 // Endregion inventarios
 
 // Configuración global Region productos

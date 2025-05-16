@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
 
     // Region inventarios
     Route::get('/inventories/shift-management', [InventoryController::class, 'shiftManagement'])->name('inventories.shift_management');
+    Route::get('/inventories/get-inventory-request-information', [InventoryController::class, 'getInventoryRequestInformation'])->name('inventories.get_inventory_request_information');
     Route::post('/inventories/save-shift-inventory-information', [InventoryController::class, 'saveShiftInventoryInformation'])->name('inventories.save_shift_inventory_information');
     Route::patch('/inventories/update-shift-inventory-information', [InventoryController::class, 'updateShiftInventoryInformation'])->name('inventories.update_shift_inventory_information');
     // Endregion inventarios
