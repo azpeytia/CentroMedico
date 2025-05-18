@@ -18,6 +18,57 @@
         <a class="nav-link" href="#">
             <i class="bi bi-folder"></i> Catálogos
         </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-person-badge"></i> Doctores
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-person-vcard"></i> Enfermeras
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-person-wheelchair"></i> Pacientes
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-capsule-pill"></i> Medicamentos
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-eyedropper"></i> Crear medicamento
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-card-list"></i> Lista de medicamentos
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-people"></i> Usuarios
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-person-plus"></i> Crear usuario
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-card-list"></i> Lista de usuarios
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="#">
@@ -53,12 +104,24 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="bi bi-file-earmark-medical"></i> Recetas
+            <i class="bi bi-prescription"></i> Recetas
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="bi bi-bag-plus"></i> Ventas
+            <i class="bi bi-cart"></i> Ventas
         </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-receipt"></i> Crear nota de venta
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-search"></i> Ventas realizadas
+                </a>
+            </li>
+        </ul>
     </li>
 </ul>
