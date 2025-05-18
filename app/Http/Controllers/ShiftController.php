@@ -4,19 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\DTOs\EventResultDTO;
-use App\Models\Shift;
+use App\Services\ShiftService;
 use Carbon\Carbon;
 
 class ShiftController extends Controller
 {
+    protected $shiftService;
+
+    public function __construct(ShiftService $shiftService)
+    {
+        $this->shiftService = $shiftService;
+    }
+
     public function getShiftInformation(Request $request, EventResultDTO $eventResultDTO)
     {
         $eventRecord = $request->input('eventRecord');
 
         try {
-            $shiftRecord = Shift::whereTime('start_time', '<=', $eventRecord)
-            ->whereTime('end_time', '>=', $eventRecord)
-            ->first();
+            $shiftRecord = $this->shiftService->getShiftInformation($eventRecord);
 
             if ($shiftRecord) {
                 $eventResultDTO->values['shiftRecords'] = $shiftRecord;
@@ -28,8 +33,10 @@ class ShiftController extends Controller
         } catch (\Exception $e) {
             $eventResultDTO->result = false;
             $eventResultDTO->message = 'Error  ' . $e->getMessage();
-            return response()->json($eventResultDTO);
+
+            return response()->json($eventResultDTO, 500);
         }
+
         return response()->json($eventResultDTO);
     }
 
@@ -38,10 +45,10 @@ class ShiftController extends Controller
         $shiftId = $request->input('eventRecord');
 
         try {
-            $eventResultDTO->values['shiftRecords'] = Shift::where('id', '!=', $shiftId)
-                ->where('is_started', 1)
-                ->first();
-            if ($eventResultDTO->values['shiftRecords']) {
+            $shiftRecord = $this->shiftService->getPreviousShiftStatus($shiftId);
+
+            if ($shiftRecord) {
+                $eventResultDTO->values['shiftRecords'] = $shiftRecord;
                 $eventResultDTO->result = true;
                 $eventResultDTO->message = 'Existe un turno sin terminar';
                 $eventResultDTO->icon = 'warning';
@@ -52,8 +59,10 @@ class ShiftController extends Controller
         } catch (\Exception $e) {
             $eventResultDTO->result = false;
             $eventResultDTO->message = 'Error  ' . $e->getMessage();
-            return response()->json($eventResultDTO);
+
+            return response()->json($eventResultDTO, 500);
         }
+
         return response()->json($eventResultDTO);
     }
 
@@ -63,11 +72,10 @@ class ShiftController extends Controller
         $shiftDate = Carbon::parse($request->input('eventRecord.shiftDate'))->toDateString();
 
         try {
-            $eventResultDTO->values['shiftRecords'] = Shift::where('id', $shiftId)
-                ->where('is_finished', 1)
-                ->whereDate('updated_at', $shiftDate)
-                ->first();
-            if ($eventResultDTO->values['shiftRecords']) {
+            $shiftRecord = $this->shiftService->getCurrentShiftStatus($shiftId, $shiftDate);
+
+            if ($shiftRecord) {
+                $eventResultDTO->values['shiftRecords'] = $shiftRecord;
                 $eventResultDTO->result = true;
                 $eventResultDTO->message = 'Turno iniciado y terminado anteriormente';
                 $eventResultDTO->icon = 'warning';
@@ -78,8 +86,10 @@ class ShiftController extends Controller
         } catch (\Exception $e) {
             $eventResultDTO->result = false;
             $eventResultDTO->message = 'Error  ' . $e->getMessage();
-            return response()->json($eventResultDTO);
+
+            return response()->json($eventResultDTO, 500);
         }
+
         return response()->json($eventResultDTO);
     }
 
@@ -90,12 +100,8 @@ class ShiftController extends Controller
         $isFinished = $request->input('eventRecord.isFinished');
 
         try {
-            $shift = Shift::find($shiftId);
+            $shift = $this->shiftService->updateShiftStatus($shiftId, $isStarted, $isFinished);
             if ($shift) {
-                $shift->is_started = $isStarted;
-                $shift->is_finished = $isFinished;
-                $shift->save();
-
                 $eventResultDTO->result = true;
                 $eventResultDTO->message = 'Estado del turno actualizado correctamente';
             } else {
@@ -105,8 +111,10 @@ class ShiftController extends Controller
         } catch (\Exception $e) {
             $eventResultDTO->result = false;
             $eventResultDTO->message = 'Error  ' . $e->getMessage();
-            return response()->json($eventResultDTO);
+
+            return response()->json($eventResultDTO, 500);
         }
+
         return response()->json($eventResultDTO);
     }
 
@@ -115,13 +123,9 @@ class ShiftController extends Controller
         $shiftId = $request->input('eventRecord');
 
         try {
-            $shift = Shift::where('id', '!=', $shiftId)
-                ->first();
-            if ($shift) {
-                $shift->is_started = 0;
-                $shift->is_finished = 1;
-                $shift->save();
+            $shift = $this->shiftService->updatePreviousShiftStatus($shiftId);
 
+            if ($shift) {
                 $eventResultDTO->result = true;
                 $eventResultDTO->message = 'Estado del turno previo actualizado correctamente';
             } else {
@@ -131,8 +135,10 @@ class ShiftController extends Controller
         } catch (\Exception $e) {
             $eventResultDTO->result = false;
             $eventResultDTO->message = 'Error  ' . $e->getMessage();
-            return response()->json($eventResultDTO);
+
+            return response()->json($eventResultDTO, 500);
         }
+
         return response()->json($eventResultDTO);
     }
 }

@@ -5,10 +5,15 @@ import ExcelJS from 'exceljs';
 
 // 2. Archivos internos
 import './bootstrap';
+
 import './components/sidebar';
+
 import './helpers/dateTimeHelper';
 import './helpers/swalHelper';
-import { swalResponse } from './helpers/swalHelper';
+import {
+    swalResponse
+} from './helpers/swalHelper';
+
 import {
     save_shift_inventory_information,
     update_shift_inventory_information,
@@ -24,6 +29,8 @@ import {
     update_shift_status,
     update_previous_status,
 } from './services/shiftService';
+
+import './pages/shift-management';
 
 // 3. Configuración global
 window.Alpine = Alpine;
