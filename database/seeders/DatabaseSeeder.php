@@ -23,8 +23,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(CategorySeeder::class);
+        $this->call(PatientSeeder::class);
         $this->call(ProductSeeder::class);
         $this->call(ShiftSeeder::class);
         $this->call(InventorySeeder::class);
+        $this->call(SaleSeeder::class);
     }
 }

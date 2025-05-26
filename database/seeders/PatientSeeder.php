@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Patient;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Patient;
 
 class PatientSeeder extends Seeder
 {
@@ -13,8 +13,10 @@ class PatientSeeder extends Seeder
      */
     public function run(): void
     {
-        // Patient::factory()->count(50)->create();
+        // Crea 5 pacientes utilizando el factory
+        // Patient::factory()->count(5)->create();
 
+        // Crea pacientes con datos específicos
         Patient::create([
             'name' => 'Juan Perez',
             'address' => 'Calle Falsa 123',

@@ -52,4 +52,16 @@ class Product extends Model
     {
         return $this->hasMany(Inventory::class);
     }
+
+    public function saleProducts()
+    {
+        return $this->hasMany(SaleProduct::class);
+    }
+
+    public function sales()
+    {
+        return $this->belongsToMany(Sale::class, 'sale_products')
+                    ->withPivot('quantity', 'unit_price', 'subtotal')
+                    ->withTimestamps();
+    }
 }
