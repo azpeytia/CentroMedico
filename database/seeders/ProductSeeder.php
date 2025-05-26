@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Product;
 
 class ProductSeeder extends Seeder
 {
@@ -13,10 +14,18 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        // Product::factory()->count(50)->create();
+        $category_id = Category::first()->id;
+        if (!$category_id) {
+            $category = Category::factory()->create();
+            $category_id = $category->id;
+        }
 
+        // Crea los productos asociados a la primera categoría
+        // Product::factory()->count(5)->create(['category_id' => $category_id]);
+
+        // Crea productos con datos específicos
         Product::create([
-            'category_id' => 1,
+            'category_id' => $category_id,
             'name' => 'Naproxeno Sodico 550 mg',
             'description' => 'Antiinflamatorio no esteroideo',
             'presentation' => 'Comprimidos',
@@ -31,7 +40,7 @@ class ProductSeeder extends Seeder
             'updated_at' => now(),
         ]);
         Product::create([
-            'category_id' => 1,
+            'category_id' => $category_id,
             'name' => 'Cefalexina 500 mg',
             'description' => 'Antibiótico',
             'presentation' => 'Cápsulas',
@@ -46,7 +55,7 @@ class ProductSeeder extends Seeder
             'updated_at' => now(),
         ]);
         Product::create([
-            'category_id' => 1,
+            'category_id' => $category_id,
             'name' => 'Fexofenadina 120 mg',
             'description' => 'Antihistamínico',
             'presentation' => 'Comprimidos',
@@ -61,7 +70,7 @@ class ProductSeeder extends Seeder
             'updated_at' => now(),
         ]);
         Product::create([
-            'category_id' => 1,
+            'category_id' => $category_id,
             'name' => 'Ciprofloxacino 500 mg',
             'description' => 'Antibiótico',
             'presentation' => 'Comprimidos',
@@ -76,7 +85,7 @@ class ProductSeeder extends Seeder
             'updated_at' => now(),
         ]);
         Product::create([
-            'category_id' => 1,
+            'category_id' => $category_id,
             'name' => 'Cloruro de sodio 0.9% 1000 ml',
             'description' => 'Solución salina',
             'presentation' => 'Solución intravenosa',

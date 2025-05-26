@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
@@ -13,8 +13,10 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+        // Crea 5 categorías utilizando el factory
         // Category::factory()->count(5)->create();
 
+        // Crea categorías con datos específicos
         Category::create([
             'name' => 'Medicamentos',
             'description' => 'Medicamentos de uso general',

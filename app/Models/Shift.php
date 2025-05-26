@@ -10,6 +10,7 @@ class Shift extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'name',
         'start_time',
         'end_time',
@@ -18,6 +19,7 @@ class Shift extends Model
     ];
 
     protected $casts = [
+        'user_id' => 'integer',
         'name' => 'string',
         'start_time' => 'datetime',
         'end_time' => 'datetime',
@@ -30,13 +32,18 @@ class Shift extends Model
         'is_finished' => false,
     ];
 
-    public function users()
-    {
-        return $this->belongsToMany(User::class);
-    }
-
-    public function invetories()
+    public function inventories()
     {
         return $this->hasMany(Inventory::class);
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
