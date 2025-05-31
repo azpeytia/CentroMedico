@@ -1,28 +1,5 @@
-export function get_product_information() {
-    const url = "/products/get-product-information";
-
-    return new Promise((resolve,reject) => {
-        try {
-            $.ajax({
-                type: "GET",
-                url: url,
-                dataType: "json",
-                success: function(eventResultDTO) {
-                    resolve(eventResultDTO);
-                },
-                error: function(errors) {
-                    var data = errors.responseJSON;
-                    reject(data);
-                }
-            });
-        } catch (error) {
-            reject(error);
-        }
-    });
-}
-
-export function search_product_information(eventRecord) {
-    const url = "/products/search-product-information";
+export function search_patient_information(eventRecord) {
+    const url = "/patients/search-patient-information";
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
     return new Promise((resolve,reject) => {

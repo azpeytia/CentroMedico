@@ -1,0 +1,124 @@
+/* Espaciado uniforme para entradas */
+input.form-control {
+    margin-bottom: 0.5rem;
+}
+
+.product-suggestions {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    max-height: 250px;
+    overflow-y: auto;
+    width: 95%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.suggestion-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #555;
+    border-bottom: 1px solid #eee; /* Línea divisoria entre elementos */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.suggestion-item:hover {
+    background-color: #007bff; /* Fondo azul al pasar el mouse */
+    color: #fff; /* Texto blanco al pasar el mouse */
+}
+
+.no-suggestions {
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #888;
+    text-align: center;
+}
+
+.patient-suggestions {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9; /* Fondo gris claro */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    z-index: 1000;
+    max-height: 250px;
+    overflow-y: auto;
+    width: 95%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.patient-suggestions .suggestion-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #555;
+    border-bottom: 1px solid #eee; /* Línea divisoria entre elementos */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.patient-suggestions .suggestion-item:hover {
+    background-color: #007bff; /* Fondo azul al pasar el mouse */
+    color: #fff; /* Texto blanco al pasar el mouse */
+}
+
+.patient-suggestions .no-suggestions {
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #888;
+    text-align: center;
+}
+
+.product-row {
+    margin-top: 10px;
+}
+
+/* Pantallas pequeñas */
+@media (max-width: 575px) {
+    button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+    }
+}
+
+/* Estilo para pantallas grandes */
+@media (min-width: 1200px) {
+    .card {
+        font-size: 1.05rem;
+    }
+}
+
+/* Card más ancha en monitores grandes */
+@media (min-width: 1400px) {
+    .card {
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.card-header {
+    background-color: #007BFF;
+    color: white;
+    font-size: 1.2rem;
+    padding: 0.75rem;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+}
+
+.card:hover {
+    transform: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#divReceiptSaleFooter {
+    border-top: 1px solid #dee2e6;
+    padding-top: 1rem;
+}

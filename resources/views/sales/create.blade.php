@@ -1,0 +1,117 @@
+@extends('layouts.main')
+
+@section('title', 'Ventas')
+
+@section('content')
+    <div class="container my-3">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-10 col-lg-8 col-xl-6">
+                <div class="card text-center shadow">
+                    <div class="card-header">
+                        <h3>Detalles de la venta</h3>
+                    </div>
+                    <div class="card-body">
+                        <form class="needs-validation p-2 p-md-3" novalidate>
+                            <div id="divReceiptSalePatient">
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-12 col-sm-6">
+                                        <input type="text" class="inputReceiptSalePatient form-control" placeholder="Paciente" readonly>
+                                    </div>
+                                    <div class="d-none">
+                                        <input type="hidden" name="patient_id" class="inputReceiptSalePatientId" value="">
+                                    </div>
+                                    <div class="col-12 col-sm-6 text-sm-end">
+                                        <button type="button" class="btn btn-secondary w-100 w-sm-auto" data-bs-toggle="modal" data-bs-target="#patientModal">
+                                            Seleccionar Paciente
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="divReceiptSaleDetail" class="mt-3">
+                                <div class="row product-row g-2 align-items-end">
+                                    <div class="col-12 col-sm-6 col-md-4">
+                                        <input type="text" class="inputReceiptSaleProduct form-control" placeholder="Producto">
+                                        <div class="product-suggestions mt-1">
+                                            <!-- Aquí se mostrarán las sugerencias -->
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-sm-3 col-md-2">
+                                        <input type="text" class="inputReceiptSaleQuantity form-control" placeholder="Cantidad">
+                                    </div>
+                                    <div class="col-6 col-sm-3 col-md-2">
+                                        <input type="text" class="inputReceiptSaleProductPrice form-control" placeholder="Precio" readonly>
+                                    </div>
+                                    <div class="col-12 col-sm-3 col-md-2">
+                                        <input type="text" class="inputReceiptSaleSubtotal form-control" placeholder="Subtotal" readonly>
+                                    </div>
+                                    <div class="d-none">
+                                        <input type="hidden" name="product_id" class="inputReceiptSaleProductId" value="">
+                                    </div>
+                                    <div class="d-none">
+                                        <input type="hidden" name="minimun_stock" class="inputReceiptSaleMinimunStock" value="">
+                                    </div>
+                                    <div class="col-12 col-sm-2 col-md-1 d-flex gap-1">
+                                        <button type="button" class="btn btn-primary add-product-button w-100" aria-label="Agregar producto">+</button>
+                                        <button type="button" class="btn btn-danger remove-product-button w-100" aria-label="Eliminar producto" disabled>&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="divReceiptSaleFooter" class="mt-4">
+                                <div class="row align-items-center">
+                                    <div class="col-12 col-sm-6 text-center text-sm-start mb-3 mb-sm-0">
+                                        <h4>Total: <span id="totalSaleAmount">0.00</span></h4>
+                                    </div>
+                                    <div class="col-12 col-sm-6 d-flex flex-column flex-sm-row justify-content-center justify-content-sm-end gap-2">
+                                        <input type="hidden" id="inputUserId" value="{{ Auth::user()->id }}">
+                                        <button type="submit" class="btn btn-primary w-100 w-sm-auto" id="saveReceiptSaleButton">Confirmar</button>
+                                        <a href="{{ route('dashboard') }}" class="btn btn-secondary w-100 w-sm-auto">Cancelar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer d-flex flex-column flex-sm-row justify-content-between text-center text-sm-start">
+                        <div>Cajero(a): {{ Auth::user()->name }}</div>
+                        <div>Hora: <span id="hour"></span> | Fecha: <span id="date"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="patientModal" tabindex="-1" aria-labelledby="patientModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="patientModalLabel">Seleccionar Paciente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="patientName" class="form-label">Nombre del Paciente</label>
+                        <input type="text" id="patientName" class="form-control" placeholder="Ingrese el nombre del paciente">
+                    </div>
+                    <input type="hidden" id="patientId">
+                    <div id="patientSuggestions" class="patient-suggestions mt-2"></div>
+                </div>
+                <div class="modal-footer d-flex flex-column flex-sm-row gap-2">
+                    <button type="button" class="btn btn-secondary w-100 w-sm-auto" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary w-100 w-sm-auto" id="selectPatientButton">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+<script>
+    window.dashboardUrl = "{{ route('dashboard') }}";
+</script>
+
+@push('scripts')
+    <script src="{{ asset('js/sale.js') }}" type="module"></script>
+@endpush
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/sale.css') }}">
+@endpush

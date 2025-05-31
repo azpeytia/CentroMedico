@@ -150,7 +150,7 @@ async function processShiftStart(productRecords, shiftId) {
 
     if (eventResultDTO.result) {
         const shiftRecord = { shiftId: shiftId, isStarted: 1, isFinished: 0 };
-        console.log(shiftRecord);
+
         await update_shift_status(shiftRecord);
 
         redirectToHome();

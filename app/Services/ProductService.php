@@ -17,4 +17,9 @@ class ProductService
     {
         return $this->productRepository->getAll();
     }
+
+    public function searchProductInformation($eventRecord)
+    {
+        return $this->productRepository->findByName($eventRecord);
+    }
 }

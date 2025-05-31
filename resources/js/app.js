@@ -14,14 +14,35 @@ import {
     swalResponse
 } from './helpers/swalHelper';
 
+// Archivos internos de servicios Region inventario
 import {
     save_shift_inventory_information,
     update_shift_inventory_information,
     get_inventory_request_information,
+    get_inventory_information,
 } from './services/inventoryService';
+// Endregion inventarios
+
+// Archivos internos de servicios Region pacientes
+import {
+    search_patient_information,
+} from './services/patientService';
+// Endregion pacientes
+
+// Archivos internos de servicios Region productos
 import {
     get_product_information,
+    search_product_information,
 } from './services/productService';
+// Endregion productos
+
+// Archivos internos de servicios Region ventas
+import {
+    save_sale_information,
+} from './services/saleService';
+// Endregion ventas
+
+// Archivos internos de servicios Region turnos
 import {
     get_shift_information,
     get_previous_shift_status,
@@ -29,8 +50,11 @@ import {
     update_shift_status,
     update_previous_status,
 } from './services/shiftService';
+// Endregion turnos
 
+// Archivos internos de páginas
 import './pages/shift-management';
+import './pages/sale';
 
 // 3. Configuración global
 window.Alpine = Alpine;
@@ -42,11 +66,21 @@ window.ExcelJS = ExcelJS;
 window.save_shift_inventory_information = save_shift_inventory_information;
 window.update_shift_inventory_information = update_shift_inventory_information;
 window.get_inventory_request_information = get_inventory_request_information;
+window.get_inventory_information = get_inventory_information;
 // Endregion inventarios
+
+// Configuración global Region pacientes
+window.search_patient_information = search_patient_information;
+// Endregion pacientes
 
 // Configuración global Region productos
 window.get_product_information = get_product_information;
+window.search_product_information = search_product_information;
 // Endregion productos
+
+// Configuración global Region ventas
+window.save_sale_information = save_sale_information;
+// Endregion ventas
 
 // Configuración global Region turnos
 window.get_shift_information = get_shift_information;

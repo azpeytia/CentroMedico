@@ -40,4 +40,9 @@ class ProductRepository
         }
         return false;
     }
+
+    public function findByName($eventRecord)
+    {
+        return Product::where('name', 'like', "%$eventRecord%")->get();
+    }
 }
