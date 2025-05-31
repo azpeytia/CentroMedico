@@ -6,7 +6,6 @@ async function initializePage() {
     await loadShiftInformation();
     await loadInventoryInformation();
     searchPatientName();
-    handlePatientSelection();
     handleProductRows();
     searchProductName();
     saveReceiptSale();
@@ -66,14 +65,10 @@ async function loadInventoryInformation() {
 }
 
 function searchPatientName() {
-    $('#patientName').on('keyup', async function(event) {
+    $(document).on('keyup', '.inputReceiptSalePatient', async function(event) {
         event.preventDefault();
-        if ($(this).val().length < 3) {
-            $('#patientSuggestions').empty();
-            return;
-        }
 
-        const eventRecord = $('#patientName').val();
+        let eventRecord = $(this).val();
 
         try {
             const eventResultDTO = await search_patient_information(eventRecord);
@@ -107,43 +102,12 @@ function updatePatientSuggestions(eventResultDTO) {
         const selectedPatientId = $(this).data('id');
         const selectedPatientName = $(this).text().trim();
 
-        $('#patientName').val(selectedPatientName);
-        $('#patientId').val(selectedPatientId);
+        $('.inputReceiptSalePatient').val(selectedPatientName);
+        $('.inputReceiptSalePatientId').val(selectedPatientId);
 
         dropdown.empty();
         dropdown.hide();
     });
-}
-
-function handlePatientSelection() {
-    $('#selectPatientButton').on('click', function(event) {
-        event.preventDefault();
-
-        const patientName = $('#patientName').val();
-        const patientId = $('#patientId').val();
-
-        if (patientName && patientId) {
-            updatePatientFields(patientName, patientId);
-            closePatientModal();
-        } else {
-            const eventResultDTO = {
-                result: false,
-                message: 'Debe seleccionar un paciente antes de continuar',
-            };
-            swalResponse(eventResultDTO);
-        }
-    });
-}
-
-function updatePatientFields(patientName, patientId) {
-    $('.inputReceiptSalePatientId').val(patientId);
-    $('.inputReceiptSalePatient').val(patientName);
-}
-
-function closePatientModal() {
-    $('#patientModal').modal('hide');
-    $('.inputReceiptSaleProduct').focus();
-    $('.btn-secondary[data-toggle="modal"]').hide();
 }
 
 function handleProductRows() {

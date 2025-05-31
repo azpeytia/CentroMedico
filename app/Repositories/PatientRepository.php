@@ -6,8 +6,8 @@ use App\Models\Patient;
 
 class PatientRepository
 {
-    public function searchByName($eventRecord)
+    public function searchByName(string $eventRecord): \Illuminate\Database\Eloquent\Collection
     {
-        return Patient::where('name', 'like', "%$eventRecord%")->get();
+        return Patient::where('name', 'like', '%' . $eventRecord . '%')->get();
     }
 }

@@ -14,16 +14,14 @@
                         <form class="needs-validation p-2 p-md-3" novalidate>
                             <div id="divReceiptSalePatient">
                                 <div class="row g-2 align-items-center">
-                                    <div class="col-12 col-sm-6">
-                                        <input type="text" class="inputReceiptSalePatient form-control" placeholder="Paciente" readonly>
+                                    <div class="col-12">
+                                        <input type="text" class="inputReceiptSalePatient form-control" placeholder="Paciente" required>
+                                        <div id="patientSuggestions" class="patient-suggestions mt-2">
+                                            <!-- Aquí se mostrarán las sugerencias de pacientes -->
+                                        </div>
                                     </div>
                                     <div class="d-none">
                                         <input type="hidden" name="patient_id" class="inputReceiptSalePatientId" value="">
-                                    </div>
-                                    <div class="col-12 col-sm-6 text-sm-end">
-                                        <button type="button" class="btn btn-secondary w-100 w-sm-auto" data-bs-toggle="modal" data-bs-target="#patientModal">
-                                            Seleccionar Paciente
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -74,30 +72,6 @@
                         <div>Cajero(a): {{ Auth::user()->name }}</div>
                         <div>Hora: <span id="hour"></span> | Fecha: <span id="date"></span></div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="patientModal" tabindex="-1" aria-labelledby="patientModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="patientModalLabel">Seleccionar Paciente</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="patientName" class="form-label">Nombre del Paciente</label>
-                        <input type="text" id="patientName" class="form-control" placeholder="Ingrese el nombre del paciente">
-                    </div>
-                    <input type="hidden" id="patientId">
-                    <div id="patientSuggestions" class="patient-suggestions mt-2"></div>
-                </div>
-                <div class="modal-footer d-flex flex-column flex-sm-row gap-2">
-                    <button type="button" class="btn btn-secondary w-100 w-sm-auto" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary w-100 w-sm-auto" id="selectPatientButton">Seleccionar</button>
                 </div>
             </div>
         </div>

@@ -36,7 +36,7 @@ class SaleService
 
             if (!$sale) {
                 $eventResultDTO->result = false;
-                $eventResultDTO->message = 'Problemas al salvar la información de la venta';
+                $eventResultDTO->message = 'Problemas al salvar la información';
 
                 return $eventResultDTO;
             }
@@ -52,7 +52,6 @@ class SaleService
                     'is_active' => $product['is_active'] ?? 1,
                 ]);
             }
-
         } catch (\Exception $e) {
             $eventResultDTO->result = false;
             $eventResultDTO->message = 'Proceso fallido: ' . $e->getMessage();

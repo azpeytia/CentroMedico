@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveSaleInformationRequest;
 use App\Services\SaleService;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class SaleController extends Controller
