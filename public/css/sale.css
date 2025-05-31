@@ -107,15 +107,36 @@ input.form-control {
 .card-header {
     background-color: #007BFF;
     color: white;
-    font-size: 1.2rem;
-    padding: 0.75rem;
+    font-size: 1rem; /* Ajusta el tamaño de fuente si lo deseas */
+    padding: 0.35rem 0.75rem; /* Ajusta estos valores según lo compacto que lo quieras */
     border-radius: 10px 10px 0 0;
     text-align: center;
+}
+
+.card-header h3 {
+    margin-top: 0.3rem; /* Ajusta el valor según lo que necesites */
+}
+
+.card-footer {
+    padding: 0.35rem 0.75rem; /* Ajusta estos valores según lo compacto que lo quieras */
+    font-size: 1rem; /* Ajusta el tamaño de fuente si lo deseas */
 }
 
 .card:hover {
     transform: none;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-product-button,
+.remove-product-button {
+    height: 38px; /* Igual a .form-control */
+    min-height: 0;
+    max-height: none;
+    padding-top: 0;
+    padding-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #divReceiptSaleFooter {
