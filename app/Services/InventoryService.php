@@ -49,4 +49,9 @@ class InventoryService
     {
         return $this->inventoryRepository->getInventoryRequest($shiftId, $shiftDate);
     }
+
+    public function getInventoryInformation($shiftId, $shiftDate)
+    {
+        return $this->inventoryRepository->getInventoryInformation($shiftId, $shiftDate);
+    }
 }

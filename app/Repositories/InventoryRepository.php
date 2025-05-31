@@ -26,4 +26,12 @@ class InventoryRepository
             ->where('date', $shiftDate)
             ->get();
     }
+
+    public function getInventoryInformation($shiftId, $shiftDate)
+    {
+        return Inventory::with('product:id,name,presentation')
+            ->where('shift_id', $shiftId)
+            ->where('date', $shiftDate)
+            ->get();
+    }
 }

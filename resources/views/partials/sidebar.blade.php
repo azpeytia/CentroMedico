@@ -113,7 +113,7 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('sales.create') }}">
                     <i class="bi bi-receipt"></i> Crear nota de venta
                 </a>
             </li>
