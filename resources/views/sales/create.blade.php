@@ -5,7 +5,7 @@
 @section('content')
     <div class="container my-3">
         <div class="row justify-content-center">
-            <div class="col-12 col-sm-10 col-md-10 col-lg-8 col-xl-6">
+            <div class="col-12 col-sm-10 col-md-10 col-lg-8 col-xl-10">
                 <div class="card text-center shadow">
                     <div class="card-header">
                         <h3>Detalles de la venta</h3>
@@ -28,8 +28,8 @@
                                 </div>
                             </div>
                             <div id="divReceiptSaleDetail" class="mt-3">
-                                <div class="row product-row g-2 align-items-end">
-                                    <div class="col-12 col-sm-6 col-md-4">
+                                <div class="row product-row g-2 align-items-stretch">
+                                    <div class="col-12 col-sm-6 col-md-5">
                                         <input type="text" class="inputReceiptSaleProduct form-control" placeholder="Producto">
                                         <div class="product-suggestions mt-1">
                                             <!-- Aquí se mostrarán las sugerencias -->
@@ -51,8 +51,8 @@
                                         <input type="hidden" name="minimun_stock" class="inputReceiptSaleMinimunStock" value="">
                                     </div>
                                     <div class="col-12 col-sm-2 col-md-1 d-flex gap-1">
-                                        <button type="button" class="btn btn-primary add-product-button w-100" aria-label="Agregar producto">+</button>
-                                        <button type="button" class="btn btn-danger remove-product-button w-100" aria-label="Eliminar producto" disabled>&times;</button>
+                                        <button type="button" class="btn btn-primary add-product-button" aria-label="Agregar producto">+</button>
+                                        <button type="button" class="btn btn-danger remove-product-button" aria-label="Eliminar producto" disabled>&times;</button>
                                     </div>
                                 </div>
                             </div>
