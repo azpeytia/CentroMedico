@@ -1,6 +1,45 @@
 $(document).ready(function() {
+    $('#divSalePatient .inputSalePatient').focus();
     initializePage();
 });
+
+const SELECTORS = {
+    productRow: '.product-row',
+    inputSaleProduct: '.inputSaleProduct',
+    inputSaleProductId: '.inputSaleProductId',
+    inputSaleProductPrice: '.inputSaleProductPrice',
+    inputSaleMinimunStock: '.inputSaleMinimunStock',
+    inputSaleQuantity: '.inputSaleQuantity',
+    inputSaleSubtotal: '.inputSaleSubtotal',
+    addProductButton: '.add-product-button',
+    removeProductButton: '.remove-product-button',
+    productSuggestions: '.product-suggestions',
+    suggestionItem: '.suggestion-item',
+    divSaleDetail: '#divSaleDetail',
+    productRowTemplate: '#product-row-template',
+    inputSalePatient: '.inputSalePatient',
+    inputSalePatientId: '.inputSalePatientId',
+    patientSuggestions: '#patientSuggestions',
+    saveSaleButton: '#saveSaleButton',
+    totalSaleAmount: '#totalSaleAmount',
+    shiftId: '#shift_id',
+    mysqlDate: '#mysql_date',
+    hour: '#hour',
+    inputUserId: '#inputUserId',
+};
+
+const ERROR_MESSAGES = {
+    fillAllFields: 'Debe completar todos los campos',
+    duplicateProduct: 'El producto ya fue agregado',
+    selectPatient: 'Debe seleccionar un paciente.',
+    addProduct: 'Debe agregar al menos un producto.',
+    totalGreaterThanZero: 'El total de la venta debe ser mayor a cero.',
+    quantityGreaterThanZero: 'La cantidad de cada producto debe ser mayor a cero.',
+    priceGreaterThanZero: 'El precio de cada producto debe ser mayor a cero.',
+    stockExceeded: 'La cantidad solicitada excede el stock disponible',
+    stockZero: 'El stock ha llegado a cero',
+    stockMinimum: 'Se alcanzó el stock mínimo',
+};
 
 async function initializePage() {
     await loadShiftInformation();
@@ -10,29 +49,28 @@ async function initializePage() {
     searchProductName();
     saveReceiptSale();
 
-    // Eventos para calcular subtotales y total general
-    $(document).on('keyup', '.inputReceiptSaleQuantity', function() {
-        let row = $(this).closest('.product-row');
+    $(document).on('keyup', SELECTORS.inputSaleQuantity, function() {
+        let row = $(this).closest(SELECTORS.productRow);
 
         checkProductStock(row);
         calculateSubtotal(row);
         calculateTotal();
     });
 
-    $(document).on('click', '.add-product-button, .remove-product-button', function() {
+    $(document).on('click', SELECTORS.addProductButton + ', ' + SELECTORS.removeProductButton, function() {
         calculateTotal();
     });
 }
 
 async function loadShiftInformation() {
-    const eventRecord = $('#hour').text();
+    const eventRecord = $(SELECTORS.hour).text();
 
     try {
         const eventResultDTO = await get_shift_information(eventRecord);
 
         if (eventResultDTO.result) {
             const shiftId = eventResultDTO.values.shiftRecords.id;
-            $('#shift_id').val(shiftId);
+            $(SELECTORS.shiftId).val(shiftId);
         } else {
             swalResponse(eventResultDTO);
         }
@@ -42,9 +80,9 @@ async function loadShiftInformation() {
 }
 
 async function loadInventoryInformation() {
-    const mysqlDateValue = $('#mysql_date').val();
-    const shiftDate = mysqlDateValue.split(' ')[0]; // Extrae solo "2025-03-26"
-    const shiftId = $('#shift_id').val();
+    const mysqlDateValue = $(SELECTORS.mysqlDate).val();
+    const shiftDate = mysqlDateValue.split(' ')[0];
+    const shiftId = $(SELECTORS.shiftId).val();
     const eventRecord = {
         shiftDate: shiftDate,
         shiftId: shiftId
@@ -65,7 +103,7 @@ async function loadInventoryInformation() {
 }
 
 function searchPatientName() {
-    $(document).on('keyup', '.inputReceiptSalePatient', async function(event) {
+    $(document).on('keyup', SELECTORS.inputSalePatient, async function(event) {
         event.preventDefault();
 
         let eventRecord = $(this).val();
@@ -76,7 +114,7 @@ function searchPatientName() {
             if (eventResultDTO.result && eventResultDTO.values.patientRecords.length > 0) {
                 updatePatientSuggestions(eventResultDTO);
             } else {
-                $('#patientSuggestions').empty();
+                $(SELECTORS.patientSuggestions).empty();
             }
         } catch (error) {
             swalResponse(error);
@@ -85,7 +123,7 @@ function searchPatientName() {
 }
 
 function updatePatientSuggestions(eventResultDTO) {
-    const dropdown = $('#patientSuggestions');
+    const dropdown = $(SELECTORS.patientSuggestions);
     dropdown.empty();
 
     eventResultDTO.values.patientRecords.forEach(patient => {
@@ -98,67 +136,68 @@ function updatePatientSuggestions(eventResultDTO) {
 
     dropdown.show();
 
-    $('.suggestion-item').on('click', function() {
+    $(SELECTORS.suggestionItem).on('click', function() {
         const selectedPatientId = $(this).data('id');
         const selectedPatientName = $(this).text().trim();
 
-        $('.inputReceiptSalePatient').val(selectedPatientName);
-        $('.inputReceiptSalePatientId').val(selectedPatientId);
+        $(SELECTORS.inputSalePatient).val(selectedPatientName);
+        $(SELECTORS.inputSalePatientId).val(selectedPatientId);
 
         dropdown.empty();
         dropdown.hide();
+
+        $('#divSaleDetail').find('.inputSaleProduct:visible:first').focus();
     });
 }
 
 function handleProductRows() {
-    $(document).on('click', '.add-product-button', function() {
-        let currentRow = $(this).closest('.product-row');
+    $(document).on('click', SELECTORS.addProductButton, function() {
+        let currentRow = $(this).closest(SELECTORS.productRow);
 
         // Valida si todos los campos están completos
         if (!validateProductRow(currentRow)) {
-            const eventResultDTO = {
-                result: false,
-                message: 'Debe completar todos los campos',
-            };
-            swalResponse(eventResultDTO);
+            swalResponse({ result: false, message: ERROR_MESSAGES.fillAllFields });
             return;
         }
 
         // Verifica si productos duplicados
-        let currentProductName = currentRow.find('.inputReceiptSaleProduct').val();
+        let currentProductName = currentRow.find(SELECTORS.inputSaleProduct).val();
         if (isDuplicateProduct(currentProductName, currentRow)) {
-            const eventResultDTO = {
-                result: false,
-                message: 'El producto ya fue agregado',
-            };
-            swalResponse(eventResultDTO);
+            swalResponse({ result: false, message: ERROR_MESSAGES.duplicateProduct });
             return;
         }
 
-        // Agrega una nueva fila de productos
         addNewProductRow();
     });
 
-    $(document).on('click', '.remove-product-button', function() {
-        $(this).closest('.product-row').remove();
+    $(document).on('click', SELECTORS.removeProductButton, function() {
+        $(this).closest(SELECTORS.productRow).remove();
         calculateTotal();
     });
 }
 
 function validateProductRow(row) {
     let allInputsFilled = true;
+    let quantity = parseInt(row.find(SELECTORS.inputSaleQuantity).val()) || 0;
+    let price = parseFloat(row.find(SELECTORS.inputSaleProductPrice).val()) || 0;
+
     row.find('input').each(function() {
         if (!$(this).val()) {
             allInputsFilled = false;
         }
     });
-    return allInputsFilled;
+
+    if (!allInputsFilled) return false;
+    if (quantity <= 0) return false;
+    if (price <= 0) return false;
+
+    return true;
 }
 
 function isDuplicateProduct(productName, currentRow) {
     let isDuplicate = false;
-    $('.product-row').not(currentRow).each(function() {
-        let existingProductName = $(this).find('.inputReceiptSaleProduct').val();
+    $(SELECTORS.productRow).not(currentRow).each(function() {
+        let existingProductName = $(this).find(SELECTORS.inputSaleProduct).val();
         if (productName === existingProductName) {
             isDuplicate = true;
         }
@@ -167,54 +206,24 @@ function isDuplicateProduct(productName, currentRow) {
 }
 
 function addNewProductRow() {
-        let productRow = `
-        <div class="row product-row g-2 align-items-end">
-            <div class="col-12 col-sm-6 col-md-4">
-                <input type="text" class="inputReceiptSaleProduct form-control" placeholder="Producto">
-                <div class="product-suggestions mt-1">
-                    <!-- Aquí se mostrarán las sugerencias -->
-                </div>
-            </div>
-            <div class="col-6 col-sm-3 col-md-2">
-                <input type="text" class="inputReceiptSaleQuantity form-control" placeholder="Cantidad">
-            </div>
-            <div class="col-6 col-sm-3 col-md-2">
-                <input type="text" class="inputReceiptSaleProductPrice form-control" placeholder="Precio" readonly>
-            </div>
-            <div class="col-12 col-sm-3 col-md-2">
-                <input type="text" class="inputReceiptSaleSubtotal form-control" placeholder="Subtotal" readonly>                    
-            </div>
-            <div class="d-none">
-                <input type="hidden" name="product_id" class="inputReceiptSaleProductId" value="">
-            </div>
-            <div class="d-none">
-                <input type="hidden" name="minimun_stock" class="inputReceiptSaleMinimunStock" value="">
-            </div>
-            <div class="col-12 col-sm-2 col-md-1 d-flex gap-1">
-                <button type="button" class="btn btn-primary add-product-button w-100" aria-label="Agregar producto">+</button>
-                <button type="button" class="btn btn-danger remove-product-button w-100" aria-label="Eliminar producto">&times;</button>
-            </div>
-        </div>
-    `;
-    $('#divReceiptSaleDetail').append(productRow);
+    let productRow = $(SELECTORS.productRowTemplate).html();
+    $(SELECTORS.divSaleDetail).append(productRow);
+
+    $(SELECTORS.divSaleDetail).find(SELECTORS.productRow).last().find(SELECTORS.inputSaleProduct).focus();
 }
 
 function searchProductName() {
-    $(document).on('keyup', '.inputReceiptSaleProduct', async function(event) {
+    $(document).on('keyup', SELECTORS.inputSaleProduct, async function(event) {
         event.preventDefault();
-        if ($(this).val().length < 3) {
-            $(this).closest('.product-row').find('.product-suggestions').empty().hide();
-            return;
-        }
 
-        let productRow = $(this).closest('.product-row');
-        let eventRecord = productRow.find('.inputReceiptSaleProduct').val();
+        let productRow = $(this).closest(SELECTORS.productRow);
+        let eventRecord = productRow.find(SELECTORS.inputSaleProduct).val();
 
         try {
             let eventResultDTO = await search_product_information(eventRecord);
 
             if (eventResultDTO.result && eventResultDTO.values.productRecords.length > 0) {
-                let dropdown = productRow.find('.product-suggestions');
+                let dropdown = productRow.find(SELECTORS.productSuggestions);
                 dropdown.empty();
 
                 eventResultDTO.values.productRecords.forEach(product => {
@@ -227,45 +236,40 @@ function searchProductName() {
 
                 dropdown.show();
             } else {
-                productRow.find('.inputReceiptSaleProductId').val('');
-                productRow.find('.product-suggestions').hide();
+                productRow.find(SELECTORS.inputSaleProductId).val('');
+                productRow.find(SELECTORS.productSuggestions).hide();
             }
         } catch (error) {
-            productRow.find('.product-suggestions').hide();
+            productRow.find(SELECTORS.productSuggestions).hide();
             swalResponse(error);
         }
     });
 
-    $(document).on('click', '.suggestion-item', function() {
-        let productRow = $(this).closest('.product-row');
+    $(document).on('click', SELECTORS.suggestionItem, function() {
+        let productRow = $(this).closest(SELECTORS.productRow);
         let selectedProductId = $(this).data('id');
         let selectedProductName = $(this).text().trim();
         let selectedProductPrice = $(this).data('price');
         let selectedProductStock = $(this).data('stock');
         let selectedProductMinimunStock = $(this).data('minimum');
 
-        productRow.find('.inputReceiptSaleProduct').val(selectedProductName);
-        productRow.find('.inputReceiptSaleProductId').val(selectedProductId);
-        productRow.find('.inputReceiptSaleProductPrice').val(selectedProductPrice);
-        productRow.find('.inputReceiptSaleMinimunStock').val(selectedProductMinimunStock);
-
+        productRow.find(SELECTORS.inputSaleProduct).val(selectedProductName);
+        productRow.find(SELECTORS.inputSaleProductId).val(selectedProductId);
+        productRow.find(SELECTORS.inputSaleProductPrice).val(selectedProductPrice);
+        productRow.find(SELECTORS.inputSaleMinimunStock).val(selectedProductMinimunStock);
         productRow.data('stock', selectedProductStock);
-
-        productRow.find('.product-suggestions').empty().hide();
+        productRow.find(SELECTORS.productSuggestions).empty().hide();
+        productRow.find(SELECTORS.inputSaleQuantity).focus();
     });
 }
 
 function checkProductStock(row) {
-    let quantity = parseInt(row.find('.inputReceiptSaleQuantity').val()) || 0;
+    let quantity = parseInt(row.find(SELECTORS.inputSaleQuantity).val()) || 0;
     let stock = parseInt(row.data('stock')) || 0;
 
     if (quantity > stock) {
-        const eventResultDTO = {
-            result: false,
-            message: 'La cantidad solicitada excede el stock disponible',
-        };
-        swalResponse(eventResultDTO);
-        row.find('.inputReceiptSaleQuantity').val(stock);
+        swalResponse({ result: false, message: ERROR_MESSAGES.stockExceeded });
+        row.find(SELECTORS.inputSaleQuantity).val(stock);
     } else {
         checkMinimumStock(row);
     }
@@ -273,63 +277,69 @@ function checkProductStock(row) {
 
 function checkMinimumStock(row) {
     let stock = parseInt(row.data('stock')) || 0;
-    let quantity = parseInt(row.find('.inputReceiptSaleQuantity').val()) || 0;
+    let quantity = parseInt(row.find(SELECTORS.inputSaleQuantity).val()) || 0;
     let futureStock = stock - quantity;
-    let minimumStock = parseInt(row.find('.inputReceiptSaleMinimunStock').val()) || 0;
+    let minimumStock = parseInt(row.find(SELECTORS.inputSaleMinimunStock).val()) || 0;
 
     if (futureStock === 0) {
-        const eventResultDTO = {
-            result: true,
-            message: 'El stock ha llegado a cero',
-        };
-        swalResponse(eventResultDTO);
+        swalResponse({ result: true, message: ERROR_MESSAGES.stockZero });
     } else if (futureStock <= minimumStock) {
-        const eventResultDTO = {
-            result: true,
-            message: 'Se alcanzó el stock mínimo',
-        };
-        swalResponse(eventResultDTO);
-        row.find('.inputReceiptSaleQuantity').val(minimumStock);
+        swalResponse({ result: true, message: ERROR_MESSAGES.stockMinimum });
+        row.find(SELECTORS.inputSaleQuantity).val(minimumStock);
     }
 }
 
 function calculateSubtotal(row) {
-    let quantity = parseInt(row.find('.inputReceiptSaleQuantity').val()) || 0;
-    let price = parseFloat(row.find('.inputReceiptSaleProductPrice').val()) || 0;
+    let quantity = parseInt(row.find(SELECTORS.inputSaleQuantity).val()) || 0;
+    let price = parseFloat(row.find(SELECTORS.inputSaleProductPrice).val()) || 0;
     let subtotal = quantity * price;
 
-    row.find('.inputReceiptSaleSubtotal').val(subtotal.toFixed(2));
+    row.find(SELECTORS.inputSaleSubtotal).val(subtotal.toFixed(2));
     return subtotal;
 }
 
 function calculateTotal() {
     let total = 0;
 
-    $('.product-row').each(function(index, element) {
+    $(SELECTORS.productRow).each(function(index, element) {
         total += calculateSubtotal($(element));
     });
 
-    $('#totalSaleAmount').text(total.toFixed(2));
+    $(SELECTORS.totalSaleAmount).text(total.toFixed(2));
 }
 
 function saveReceiptSale() {
-    $('#saveReceiptSaleButton').on('click', async function(event) {
+    $(SELECTORS.saveSaleButton).on('click', async function(event) {
         event.preventDefault();
 
-        // Obtener los datos de la venta
         const eventRecord = getSaleData();
+        const saleProductData = getSaleProductData();
 
-        if (!eventRecord) {
-            const eventResultDTO = {
-                result: false,
-                message: 'Complete los campos obligatorios antes de registrar la venta',
-            };
-            swalResponse(eventResultDTO);
+        if (!eventRecord.patient_id) {
+            swalResponse({ result: false, message: ERROR_MESSAGES.selectPatient });
             return;
         }
 
-        // Obtener los datos de los productos de la venta
-        const saleProductData = getSaleProductData();
+        if (!saleProductData.products.length) {
+            swalResponse({ result: false, message: ERROR_MESSAGES.addProduct });
+            return;
+        }
+
+        if (eventRecord.total <= 0) {
+            swalResponse({ result: false, message: ERROR_MESSAGES.totalGreaterThanZero });
+            return;
+        }
+
+        for (const product of saleProductData.products) {
+            if (product.quantity <= 0) {
+                swalResponse({ result: false, message: ERROR_MESSAGES.quantityGreaterThanZero });
+                return;
+            }
+            if (product.unit_price <= 0) {
+                swalResponse({ result: false, message: ERROR_MESSAGES.priceGreaterThanZero });
+                return;
+            }
+        }
 
         //Unir los datos de la venta y los productos
         const payload = {
@@ -351,10 +361,10 @@ function saveReceiptSale() {
 function getSaleData() {
     // Construir el objeto de datos de la venta
     return {
-        patient_id: parseInt($('.inputReceiptSalePatientId').val()) || 0,
-        shift_id: parseInt($('#shift_id').val()) || 0,
-        user_id: parseInt($('#inputUserId').val()) || 0,
-        total: parseFloat($('#totalSaleAmount').text()) || 0,
+        patient_id: parseInt($(SELECTORS.inputSalePatientId).val()) || 0,
+        shift_id: parseInt($(SELECTORS.shiftId).val()) || 0,
+        user_id: parseInt($(SELECTORS.inputUserId).val()) || 0,
+        total: parseFloat($(SELECTORS.totalSaleAmount).text()) || 0,
         status: 'Pendiente',
         payment_method: 'Efectivo',
         is_active: 1,
@@ -364,22 +374,24 @@ function getSaleData() {
 }
 
 function getSaleProductData() {
-    // Capturar todos los productos y cantidades de la venta
+    // Captura todos los productos y cantidades de la venta
     const products = [];
 
-    $('.product-row').each(function() {
-        const productId = parseInt($(this).find('.inputReceiptSaleProductId').val()) || 0;
-        const quantity = parseInt($(this).find('.inputReceiptSaleQuantity').val()) || 0;
-        const unit_price = parseFloat($(this).find('.inputReceiptSaleProductPrice').val()) || 0;
+    $(SELECTORS.productRow).each(function() {
+        const productId = parseInt($(this).find(SELECTORS.inputSaleProductId).val()) || 0;
+        const quantity = parseInt($(this).find(SELECTORS.inputSaleQuantity).val()) || 0;
+        const unit_price = parseFloat($(this).find(SELECTORS.inputSaleProductPrice).val()) || 0;
         const subtotal = quantity * unit_price;
 
-        products.push({
-            product_id: productId,
-            quantity: quantity,
-            unit_price: unit_price,
-            subtotal: subtotal,
-            is_active: 1,
-        });
+        if (productId > 0 && quantity > 0 && unit_price > 0) {
+            products.push({
+                product_id: productId,
+                quantity: quantity,
+                unit_price: unit_price,
+                subtotal: subtotal,
+                is_active: 1,
+            });
+        }
     });
 
     // Construir el objeto de datos de los productos de la venta
@@ -400,7 +412,6 @@ function handleServerResponse(eventResultDTO) {
 
 function redirectToHome() {
     setTimeout(() => {
-        // window.location.href = '{{ route('dashboard') }}';
         window.location.href = window.dashboardUrl;
     }, 3000);
 }
