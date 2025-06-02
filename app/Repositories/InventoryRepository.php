@@ -11,6 +11,24 @@ class InventoryRepository
         return Inventory::create($data);
     }
 
+    public function update($id, $data)
+    {
+        $inventory = Inventory::find($id);
+        if ($inventory) {
+            $inventory->update($data);
+            return $inventory;
+        }
+        return null;
+    }
+
+    public function findByProductShiftAndDate($productId, $shiftId, $shiftDate)
+    {
+        return Inventory::where('product_id', $productId)
+            ->where('shift_id', $shiftId)
+            ->where('date', $shiftDate)
+            ->first();
+    }
+
     public function findForUpdate($shiftId, $productId, $shiftDate)
     {
         return Inventory::where('shift_id', $shiftId)
