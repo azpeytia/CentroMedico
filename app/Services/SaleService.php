@@ -3,16 +3,27 @@
 namespace App\Services;
 
 use App\DTOs\EventResultDTO;
+use App\Repositories\InventoryRepository;
+use App\Repositories\ProductRepository;
 use App\Repositories\SaleRepository;
 use App\Repositories\SaleProductRepository;
+use Illuminate\Support\Facades\DB;
 
 class SaleService
 {
+    protected $inventoryRepository;
+    protected $productRepository;
     protected $saleRepository;
     protected $saleProductRepository;
 
-    public function __construct(SaleRepository $saleRepository, SaleProductRepository $saleProductRepository)
-    {
+    public function __construct(
+        InventoryRepository $inventoryRepository,
+        ProductRepository $productRepository,
+        SaleRepository $saleRepository,
+        SaleProductRepository $saleProductRepository
+    ) {
+        $this->inventoryRepository = $inventoryRepository;
+        $this->productRepository = $productRepository;
         $this->saleRepository = $saleRepository;
         $this->saleProductRepository = $saleProductRepository;
     }
@@ -20,6 +31,8 @@ class SaleService
     public function saveSaleInformation($request): EventResultDTO
     {
         $eventResultDTO = new EventResultDTO();
+
+        DB::beginTransaction();
 
         try {
             $sale = $this->saleRepository->create([
@@ -35,6 +48,7 @@ class SaleService
             ]);
 
             if (!$sale) {
+                DB::rollBack();
                 $eventResultDTO->result = false;
                 $eventResultDTO->message = 'Problemas al salvar la información';
 
@@ -51,8 +65,36 @@ class SaleService
                     'subtotal' => $product['subtotal'],
                     'is_active' => $product['is_active'] ?? 1,
                 ]);
+
+                $productModel = $this->productRepository->findById($product['product_id']);
+                if ($productModel) {
+                    $newStock = $productModel->stock - $product['quantity'];
+                    $updateData = [
+                        'stock' => $newStock,
+                    ];
+                    if ($newStock == 0) {
+                        $updateData['is_empty'] = 1;
+                        $updateData['is_active'] = 0;
+                    }
+                    $this->productRepository->update($productModel->id, $updateData);
+                }
+
+                $inventory = $this->inventoryRepository->findByProductShiftAndDate(
+                    $product['product_id'],
+                    $request->input('shift_id'),
+                    $request->input('shift_date')
+                );
+                if ($inventory) {
+                    $this->inventoryRepository->update($inventory->id, [
+                        'sold_stock' => $inventory->sold_stock + $product['quantity']
+                    ]);
+                }
             }
+
+            DB::commit();
         } catch (\Exception $e) {
+            DB::rollBack();
+
             $eventResultDTO->result = false;
             $eventResultDTO->message = 'Proceso fallido: ' . $e->getMessage();
 
