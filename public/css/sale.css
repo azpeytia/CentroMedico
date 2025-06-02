@@ -8,30 +8,18 @@ input.form-control {
 .patient-suggestions {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    background-color: #f3eeee;
+    border: 1.5px solid #007bff;
+    border-radius: 0.5rem;
     z-index: 1000;
     max-height: 250px;
     overflow-y: auto;
     width: 95%;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 10px 15px;
-    font-size: 14px;
-    color: #888;
-    text-align: center;
-}
-
-/* Ajuste de color para sugerencias de producto */
-.product-suggestions {
-    background-color: #fff;
-    border: 1.5px solid #007bff;
-    border-radius: 0.5rem;
     box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-    color: #222;
-    padding: 0.25rem 0;
+    padding: 0.25rem 0.5rem;
     font-size: 1rem;
-    
+    color: #222;
+    text-align: center;
 }
 
 /* Elementos de sugerencia */

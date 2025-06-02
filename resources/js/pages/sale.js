@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $('#divSalePatient .inputSalePatient').val('');
     $('#divSalePatient .inputSalePatient').focus();
     initializePage();
 });
@@ -29,6 +30,7 @@ const SELECTORS = {
 };
 
 const ERROR_MESSAGES = {
+    shiftStatus: 'El turno no ha sido iniciado.',
     fillAllFields: 'Debe completar todos los campos',
     duplicateProduct: 'El producto ya fue agregado',
     selectPatient: 'Debe seleccionar un paciente.',
@@ -39,6 +41,14 @@ const ERROR_MESSAGES = {
     stockExceeded: 'La cantidad solicitada excede el stock disponible',
     stockZero: 'El stock ha llegado a cero',
     stockMinimum: 'Se alcanzó el stock mínimo',
+};
+
+const MESSAGE_ICONS = {
+    success: 'success',
+    error: 'error',
+    warning: 'warning',
+    info: 'info',
+    question: 'question',
 };
 
 async function initializePage() {
@@ -69,6 +79,15 @@ async function loadShiftInformation() {
         const eventResultDTO = await get_shift_information(eventRecord);
 
         if (eventResultDTO.result) {
+            const isStarted = eventResultDTO.values.shiftRecords.is_started;
+
+            if (!isStarted) {
+                swalResponse({ result: false, message: ERROR_MESSAGES.shiftStatus, icon: MESSAGE_ICONS.warning });
+
+                redirectToHome();
+                return;
+            }
+
             const shiftId = eventResultDTO.values.shiftRecords.id;
             $(SELECTORS.shiftId).val(shiftId);
         } else {
@@ -107,6 +126,11 @@ function searchPatientName() {
         event.preventDefault();
 
         let eventRecord = $(this).val();
+
+        if (eventRecord.trim() === '') {
+            $(SELECTORS.patientSuggestions).empty().hide();
+            return;
+        }
 
         try {
             const eventResultDTO = await search_patient_information(eventRecord);
@@ -218,6 +242,11 @@ function searchProductName() {
 
         let productRow = $(this).closest(SELECTORS.productRow);
         let eventRecord = productRow.find(SELECTORS.inputSaleProduct).val();
+
+        if (eventRecord.trim() === '') {
+            productRow.find(SELECTORS.productSuggestions).empty().hide();
+            return;
+        }
 
         try {
             let eventResultDTO = await search_product_information(eventRecord);
