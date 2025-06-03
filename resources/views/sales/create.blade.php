@@ -3,7 +3,7 @@
 @section('title', 'Ventas')
 
 @section('content')
-    <div class="container my-3">
+    <div class="container my-3" id="sales-create">
         <div class="row justify-content-center">
             <div class="col-12 col-sm-10 col-md-10 col-lg-8 col-xl-10">
                 <div class="card text-center shadow">
