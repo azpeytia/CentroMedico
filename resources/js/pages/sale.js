@@ -2,6 +2,11 @@ $(document).ready(function() {
     $('#divSalePatient .inputSalePatient').val('');
     $('#divSalePatient .inputSalePatient').focus();
     initializePage();
+
+    if ($('#sales-create').length > 0) {
+        loadShiftInformation();
+        loadInventoryInformation();
+    }
 });
 
 const SELECTORS = {
@@ -25,7 +30,7 @@ const SELECTORS = {
     totalSaleAmount: '#totalSaleAmount',
     shiftId: '#shift_id',
     mysqlDate: '#mysql_date',
-    hour: '#hour',
+    hour: '#shift_hour',
     inputUserId: '#inputUserId',
 };
 
@@ -51,9 +56,7 @@ const MESSAGE_ICONS = {
     question: 'question',
 };
 
-async function initializePage() {
-    await loadShiftInformation();
-    await loadInventoryInformation();
+function initializePage() {
     searchPatientName();
     handleProductRows();
     searchProductName();
@@ -73,7 +76,7 @@ async function initializePage() {
 }
 
 async function loadShiftInformation() {
-    const eventRecord = $(SELECTORS.hour).text();
+    const eventRecord = $(SELECTORS.hour).val();
 
     try {
         const eventResultDTO = await get_shift_information(eventRecord);
