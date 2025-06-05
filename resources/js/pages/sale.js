@@ -1,12 +1,13 @@
-$(document).ready(function() {
+$(document).ready(async function() {
+    if ($('#sales-create').length > 0) {
+        await loadShiftInformation();
+        await loadInventoryInformation();
+    }
+
     $('#divSalePatient .inputSalePatient').val('');
     $('#divSalePatient .inputSalePatient').focus();
-    initializePage();
 
-    if ($('#sales-create').length > 0) {
-        loadShiftInformation();
-        loadInventoryInformation();
-    }
+    initializePage();
 });
 
 const SELECTORS = {

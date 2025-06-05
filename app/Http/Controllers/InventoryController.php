@@ -17,6 +17,11 @@ class InventoryController extends Controller
         $this->inventoryService = $inventoryService;
     }
 
+    public function inventoryByShift()
+    {
+        return view('inventories.inventory-by-shift');
+    }
+
     public function shiftManagement()
     {
         return view('inventories.shift-management');

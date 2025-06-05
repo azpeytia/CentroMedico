@@ -81,6 +81,11 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ route('inventories.inventory_by_shift') }}">
+                    <i class="bi bi-clipboard-data"></i> Por turno
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="bi bi-truck"></i> Surtir inventario
                 </a>

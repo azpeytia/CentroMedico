@@ -53,6 +53,7 @@ import {
 // Endregion turnos
 
 // Archivos internos de páginas
+import './pages/inventory-by-shift';
 import './pages/shift-management';
 import './pages/sale';
 
