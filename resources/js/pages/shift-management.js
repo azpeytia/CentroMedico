@@ -1,5 +1,11 @@
-$(document).ready(function() {
-    initializePage();
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof updateDateTime === 'function') {
+        updateDateTime();
+    }
+    
+    if (document.getElementById('shift-management')) {
+        initializePage();
+    }
 });
 
 function initializePage() {
@@ -10,9 +16,9 @@ function initializePage() {
 }
 
 async function loadShiftInformation() {
-    try {
-        const eventRecord = $('#shift_hour').val();
+    const eventRecord = document.getElementById('shift_hour').value;
 
+    try {
         // Obtiene información del turno actual
         const eventResultDTO = await get_shift_information(eventRecord);
 
@@ -21,7 +27,7 @@ async function loadShiftInformation() {
             updateShiftButtons(eventResultDTO.values.shiftRecords.is_started);
 
             // Asigna el nombre del turno al campo de texto
-            $('#shift').text(eventResultDTO.values.shiftRecords.name);
+            document.getElementById('shift').textContent = eventResultDTO.values.shiftRecords.name;
 
             // Verifica si hay turnos sin cerrar diferentes al actual
             checkAnyShiftOpen();
@@ -29,7 +35,7 @@ async function loadShiftInformation() {
             // Verifica si el turno actual está iniciado y terminado anteriormente
             checkCurrentShiftStatus();
         } else {
-            $('#shift').text('No hay turnos activos en este momento');
+            document.getElementById('shift').textContent = 'No hay turnos activos en este momento';
             swalResponse(eventResultDTO);
         }
     } catch (error) {
@@ -39,25 +45,20 @@ async function loadShiftInformation() {
 
 function updateShiftInputs(shiftRecords) {
     // Asigna valores a los inputs ocultos
-    $('#shift_name').val(shiftRecords.name);
-    $('#shift_id').val(shiftRecords.id);
-    $('#shift_status').val(shiftRecords.is_started);
+    document.getElementById('shift_name').value = shiftRecords.name;
+    document.getElementById('shift_id').value = shiftRecords.id;
+    document.getElementById('shift_status').value = shiftRecords.is_started;
 }
 
 function updateShiftButtons(isStarted) {
     // Habilita o deshabilita los botones según el estado del turno
-    if (isStarted == 0) {
-        $('#btnStartShift').prop('disabled', false);
-        $('#btnEndShift').prop('disabled', true);
-    } else {
-        $('#btnStartShift').prop('disabled', true);
-        $('#btnEndShift').prop('disabled', false);
-    }
+    document.getElementById('btnStartShift').disabled = !(isStarted == 0);
+    document.getElementById('btnEndShift').disabled = (isStarted == 0);
 }
 
 async function checkAnyShiftOpen() {
-    const eventRecord = $('#shift_id').val();
-
+    const eventRecord = document.getElementById('shift_id').value;
+console.log(eventRecord);
     try {
         const eventResultDTO = await get_previous_shift_status(eventRecord);
 
@@ -66,8 +67,6 @@ async function checkAnyShiftOpen() {
             swalResponse(eventResultDTO);
 
             closePreviousShift();
-        } else {
-            //swalResponse(eventResultDTO);
         }
     } catch (error) {
         swalResponse(error);
@@ -75,7 +74,7 @@ async function checkAnyShiftOpen() {
 }
 
 async function closePreviousShift() {
-    const eventRecord = $('#shift_id').val();
+    const eventRecord = document.getElementById('shift_id').value;
 
     try {
         const eventResultDTO = await update_previous_status(eventRecord);
@@ -93,19 +92,22 @@ async function closePreviousShift() {
 }
 
 async function checkCurrentShiftStatus() {
-    const eventRecord = {shiftId: $('#shift_id').val(), shiftDate: $('#shift_date').val()};
+    const eventRecord = {
+        shiftId: document.getElementById('shift_id').value,
+        shiftDate: document.getElementById('shift_date').value
+    };
 
     try {
         const eventResultDTO = await get_current_shift_status(eventRecord);
 
         if (eventResultDTO.result) {
-            $('#btnStartShift').prop('disabled', true);
-            $('#btnEndShift').prop('disabled', true);
-            $('#btnInventoryRequest').prop('disabled', false);
+            document.getElementById('btnStartShift').disabled = true;
+            document.getElementById('btnEndShift').disabled = true;
+            document.getElementById('btnInventoryRequest').disabled = false;
 
             swalResponse(eventResultDTO);
-        } else {
-            //swalResponse(eventResultDTO);
+
+            redirectToHome();
         }
     } catch (error) {
         swalResponse(error);
@@ -113,7 +115,7 @@ async function checkCurrentShiftStatus() {
 }
 
 function loadProductInformation() {
-    $('#btnStartShift').click(async function(event) {
+    document.getElementById('btnStartShift').addEventListener('click', async function(event) {
         event.preventDefault();
 
         try {
@@ -123,8 +125,8 @@ function loadProductInformation() {
                 return handleResponse(productInformation);
             }
 
-            const shiftId = $('#shift_id').val();
-            const shiftDate = $('#shift_date').val();
+            const shiftId = document.getElementById('shift_id').value;
+            const shiftDate = document.getElementById('shift_date').value;
 
             const productRecords = mapProductRecords(productInformation.values.productRecords, shiftId, shiftDate);
 
@@ -165,25 +167,26 @@ function handleResponse(eventResultDTO, updateButtons = false) {
 }
 
 function toggleShiftButtons(isShiftStarted) {
-    $('#btnStartShift').prop('disabled', isShiftStarted);
-    $('#btnEndShift').prop('disabled', !isShiftStarted);
+    document.getElementById('btnStartShift').disabled = isShiftStarted;
+    document.getElementById('btnEndShift').disabled = !isShiftStarted;
 }
 
 function redirectToHome() {
-    setTimeout(() => {
+    window.location.href = window.dashboardUrl;
+    /* setTimeout(() => {
         // window.location.href = '{{ route('dashboard') }}';
-        window.location.href = window.dashboardUrl;
-    }, 3000);
+        
+    }, 3000); */
 }
 
 function closeCurrentShift() {
-    $('#btnEndShift').click(async function(event) {
+    document.getElementById('btnEndShift').addEventListener('click', async function(event) {
         event.preventDefault();
 
         try {
             const productInformation = await get_product_information();
-            const shiftId = $('#shift_id').val();
-            const shiftDate = $('#shift_date').val();
+            const shiftId = document.getElementById('shift_id').value;
+            const shiftDate = document.getElementById('shift_date').value;
 
             if (productInformation.result) {
                 const productRecords = productInformation.values.productRecords.map(product => ({
@@ -195,8 +198,8 @@ function closeCurrentShift() {
                 const eventResultDTO = await update_shift_inventory_information(productRecords);
 
                 if (eventResultDTO.result) {
-                    $('#btnEndShift').prop('disabled', true);
-                    $('#btnInventoryRequest').prop('disabled', false);
+                    document.getElementById('btnEndShift').disabled = true;
+                    document.getElementById('btnInventoryRequest').disabled = false;
 
                     swalResponse(eventResultDTO);
 
@@ -215,12 +218,12 @@ function closeCurrentShift() {
 }
 
 function runInventoryRequest() {
-    $('#btnInventoryRequest').click(async function(event) {
+    document.getElementById('btnInventoryRequest').addEventListener('click', async function(event) {
         event.preventDefault();
 
         const eventRecord = {
-                shiftId: $('#shift_id').val(),
-                shiftDate: $('#shift_date').val(),
+                shiftId: document.getElementById('shift_id').value,
+                shiftDate: document.getElementById('shift_date').value,
             };
 
         try {

@@ -3,7 +3,7 @@
 @section('title', 'Inventarios')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" id="shift-management">
         <div class="row justify-content-center">
             <div class="col-12 text-center">
                 <h1 class="display-4">{{ __('Turnos de inventarios') }}</h1>
