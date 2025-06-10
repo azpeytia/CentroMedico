@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\EventResultDTO;
 use App\Repositories\ShiftRepository;
 
 class ShiftService
@@ -13,9 +14,30 @@ class ShiftService
         $this->shiftRepository = $shiftRepository;
     }
 
-    public function getShiftInformation($eventRecord)
+    public function getShiftInformation($request): EventResultDTO
     {
-        return $this->shiftRepository->findByTime($eventRecord);
+        $eventResultDTO = new EventResultDTO();
+
+        try {
+            $shiftRecords = $this->shiftRepository->findByTime($request->input('eventRecord'));
+
+            if (!$shiftRecords) {
+                $eventResultDTO->result = false;
+                $eventResultDTO->message = 'No se encontró un turno para la hora proporcionada';
+
+                return $eventResultDTO;
+            }
+        } catch (\Exception $e) {
+            $eventResultDTO->result = false;
+            $eventResultDTO->message = 'Proceso fallido: ' . $e->getMessage();
+
+            return $eventResultDTO;
+        }
+
+        $eventResultDTO->values['shiftRecords'] = $shiftRecords;
+        $eventResultDTO->message = 'Turno(s) encontrado(s)';
+
+        return $eventResultDTO;
     }
 
     public function getPreviousShiftStatus($shiftId)

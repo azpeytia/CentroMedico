@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Shifts\GetShiftInformationRequest;
+use App\Services\ShiftService;
+use Illuminate\Http\JsonResponse;
+
 use Illuminate\Http\Request;
 use App\DTOs\EventResultDTO;
-use App\Services\ShiftService;
+
 use Carbon\Carbon;
 
 class ShiftController extends Controller
@@ -16,31 +20,14 @@ class ShiftController extends Controller
         $this->shiftService = $shiftService;
     }
 
-    public function getShiftInformation(Request $request, EventResultDTO $eventResultDTO)
+    public function getShiftInformation(GetShiftInformationRequest $request): JsonResponse
     {
-        $eventRecord = $request->input('eventRecord');
-
-        try {
-            $shiftRecord = $this->shiftService->getShiftInformation($eventRecord);
-
-            if ($shiftRecord) {
-                $eventResultDTO->values['shiftRecords'] = $shiftRecord;
-                $eventResultDTO->result = true;
-            } else {
-                $eventResultDTO->result = false;
-                $eventResultDTO->message = 'No se encontró un turno para la hora proporcionada';
-            }
-        } catch (\Exception $e) {
-            $eventResultDTO->result = false;
-            $eventResultDTO->message = 'Error  ' . $e->getMessage();
-
-            return response()->json($eventResultDTO, 500);
-        }
+        $eventResultDTO = $this->shiftService->getShiftInformation($request);
 
         return response()->json($eventResultDTO);
     }
 
-    public function getPreviousShiftStatus(Request $request, EventResultDTO $eventResultDTO)
+    public function getPreviousShiftStatus(Request $request, EventResultDTO $eventResultDTO): JsonResponse
     {
         $shiftId = $request->input('eventRecord');
 
@@ -66,7 +53,7 @@ class ShiftController extends Controller
         return response()->json($eventResultDTO);
     }
 
-    public function getCurrentShiftStatus(Request $request, EventResultDTO $eventResultDTO)
+    public function getCurrentShiftStatus(Request $request, EventResultDTO $eventResultDTO): JsonResponse
     {
         $shiftId = $request->input('eventRecord.shiftId');
         $shiftDate = Carbon::parse($request->input('eventRecord.shiftDate'))->toDateString();
@@ -93,7 +80,7 @@ class ShiftController extends Controller
         return response()->json($eventResultDTO);
     }
 
-    public function updateShiftStatus(Request $request, EventResultDTO $eventResultDTO)
+    public function updateShiftStatus(Request $request, EventResultDTO $eventResultDTO): JsonResponse
     {
         $shiftId = $request->input('eventRecord.shiftId');
         $isStarted = $request->input('eventRecord.isStarted');
