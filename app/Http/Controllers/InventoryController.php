@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\EventResultDTO;
-use App\Http\Requests\SaveshiftInventoryRequest;
+use App\Http\Requests\SaveShiftInventoryRequest;
 use App\Http\Requests\UpdateShiftInventoryRequest;
 use App\Services\InventoryService;
 use Illuminate\Http\Request;

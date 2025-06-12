@@ -48,7 +48,7 @@ import {
     get_previous_shift_status,
     get_current_shift_status,
     update_shift_status,
-    update_previous_status,
+    update_previous_shift_status,
 } from './services/shiftService';
 // Endregion turnos
 
@@ -88,7 +88,7 @@ window.get_shift_information = get_shift_information;
 window.get_previous_shift_status = get_previous_shift_status;
 window.get_current_shift_status = get_current_shift_status;
 window.update_shift_status = update_shift_status;
-window.update_previous_status = update_previous_status;
+window.update_previous_shift_status = update_previous_shift_status;
 // Endregion turnos
 
 Alpine.start();

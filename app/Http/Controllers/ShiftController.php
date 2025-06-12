@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\EventResultDTO;
+use App\Http\Requests\Shifts\GetCurrentShiftStatusRequest;
+use App\Http\Requests\Shifts\GetPreviousShiftStatusRequest;
 use App\Http\Requests\Shifts\GetShiftInformationRequest;
+use App\Http\Requests\Shifts\UpdateShiftStatusRequest;
+use App\Http\Requests\Shifts\UpdatePreviousShiftStatusRequest;
 use App\Services\ShiftService;
 use Illuminate\Http\JsonResponse;
 
-use Illuminate\Http\Request;
-use App\DTOs\EventResultDTO;
-
-use Carbon\Carbon;
-
 class ShiftController extends Controller
 {
-    protected $shiftService;
+    protected ShiftService $shiftService;
 
     public function __construct(ShiftService $shiftService)
     {
@@ -27,104 +27,30 @@ class ShiftController extends Controller
         return response()->json($eventResultDTO);
     }
 
-    public function getPreviousShiftStatus(Request $request, EventResultDTO $eventResultDTO): JsonResponse
+    public function getPreviousShiftStatus(GetPreviousShiftStatusRequest $request): JsonResponse
     {
-        $shiftId = $request->input('eventRecord');
-
-        try {
-            $shiftRecord = $this->shiftService->getPreviousShiftStatus($shiftId);
-
-            if ($shiftRecord) {
-                $eventResultDTO->values['shiftRecords'] = $shiftRecord;
-                $eventResultDTO->result = true;
-                $eventResultDTO->message = 'Existe un turno sin terminar';
-                $eventResultDTO->icon = 'warning';
-            } else {
-                $eventResultDTO->result = false;
-                $eventResultDTO->message = 'No se encontró un turno iniciado';
-            }
-        } catch (\Exception $e) {
-            $eventResultDTO->result = false;
-            $eventResultDTO->message = 'Error  ' . $e->getMessage();
-
-            return response()->json($eventResultDTO, 500);
-        }
+        $eventResultDTO = $this->shiftService->getPreviousShiftStatus($request);
 
         return response()->json($eventResultDTO);
     }
 
-    public function getCurrentShiftStatus(Request $request, EventResultDTO $eventResultDTO): JsonResponse
+    public function getCurrentShiftStatus(GetCurrentShiftStatusRequest $request): JsonResponse
     {
-        $shiftId = $request->input('eventRecord.shiftId');
-        $shiftDate = Carbon::parse($request->input('eventRecord.shiftDate'))->toDateString();
-
-        try {
-            $shiftRecord = $this->shiftService->getCurrentShiftStatus($shiftId, $shiftDate);
-
-            if ($shiftRecord) {
-                $eventResultDTO->values['shiftRecords'] = $shiftRecord;
-                $eventResultDTO->result = true;
-                $eventResultDTO->message = 'Turno iniciado y terminado anteriormente';
-                $eventResultDTO->icon = 'warning';
-            } else {
-                $eventResultDTO->result = false;
-                $eventResultDTO->message = 'No se encontró un turno terminado';
-            }
-        } catch (\Exception $e) {
-            $eventResultDTO->result = false;
-            $eventResultDTO->message = 'Error  ' . $e->getMessage();
-
-            return response()->json($eventResultDTO, 500);
-        }
+        $eventResultDTO = $this->shiftService->getCurrentShiftStatus($request);
 
         return response()->json($eventResultDTO);
     }
 
-    public function updateShiftStatus(Request $request, EventResultDTO $eventResultDTO): JsonResponse
+    public function updateShiftStatus(UpdateShiftStatusRequest $request): JsonResponse
     {
-        $shiftId = $request->input('eventRecord.shiftId');
-        $isStarted = $request->input('eventRecord.isStarted');
-        $isFinished = $request->input('eventRecord.isFinished');
-
-        try {
-            $shift = $this->shiftService->updateShiftStatus($shiftId, $isStarted, $isFinished);
-            if ($shift) {
-                $eventResultDTO->result = true;
-                $eventResultDTO->message = 'Estado del turno actualizado correctamente';
-            } else {
-                $eventResultDTO->result = false;
-                $eventResultDTO->message = 'Turno no encontrado';
-            }
-        } catch (\Exception $e) {
-            $eventResultDTO->result = false;
-            $eventResultDTO->message = 'Error  ' . $e->getMessage();
-
-            return response()->json($eventResultDTO, 500);
-        }
+        $eventResultDTO = $this->shiftService->updateShiftStatus($request);
 
         return response()->json($eventResultDTO);
     }
 
-    public function updatePreviousShiftStatus(Request $request, EventResultDTO $eventResultDTO)
+    public function updatePreviousShiftStatus(UpdatePreviousShiftStatusRequest $request): JsonResponse
     {
-        $shiftId = $request->input('eventRecord');
-
-        try {
-            $shift = $this->shiftService->updatePreviousShiftStatus($shiftId);
-
-            if ($shift) {
-                $eventResultDTO->result = true;
-                $eventResultDTO->message = 'Estado del turno previo actualizado correctamente';
-            } else {
-                $eventResultDTO->result = false;
-                $eventResultDTO->message = 'Turno no encontrado';
-            }
-        } catch (\Exception $e) {
-            $eventResultDTO->result = false;
-            $eventResultDTO->message = 'Error  ' . $e->getMessage();
-
-            return response()->json($eventResultDTO, 500);
-        }
+        $eventResultDTO = $this->shiftService->updatePreviousShiftStatus($request);
 
         return response()->json($eventResultDTO);
     }
