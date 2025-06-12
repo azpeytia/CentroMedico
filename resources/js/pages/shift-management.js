@@ -58,7 +58,7 @@ function updateShiftButtons(isStarted) {
 
 async function checkAnyShiftOpen() {
     const eventRecord = document.getElementById('shift_id').value;
-console.log(eventRecord);
+
     try {
         const eventResultDTO = await get_previous_shift_status(eventRecord);
 
@@ -77,7 +77,7 @@ async function closePreviousShift() {
     const eventRecord = document.getElementById('shift_id').value;
 
     try {
-        const eventResultDTO = await update_previous_status(eventRecord);
+        const eventResultDTO = await update_previous_shift_status(eventRecord);
 
         if (eventResultDTO.result) {
             swalResponse(eventResultDTO);
@@ -283,6 +283,8 @@ function runInventoryRequest() {
                 URL.revokeObjectURL(url);
                 
                 swalResponse(eventResultDTO);
+
+                redirectToHome();
             } else {
                 swalResponse(eventResultDTO);
             }
