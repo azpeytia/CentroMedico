@@ -30,5 +30,18 @@ class PatientSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        Patient::create([
+            'name' => 'Maria Garcia',
+            'address' => 'Calle Falsa 123',
+            'city' => 'Ciudad de Mexico',
+            'state' => 'CDMX',
+            'zip_code' => '01234',
+            'phone' => '555-1234-5678',
+            'sex' => 'Femenino',
+            'birthdate' => '1990-01-01',
+            'is_active' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }
