@@ -11,6 +11,7 @@ class Product extends Model
 
     protected $fillable = [
         'category_id',
+        'gtin_code',
         'name',
         'description',
         'presentation',
@@ -25,6 +26,7 @@ class Product extends Model
 
     protected $casts = [
         'category_id' => 'integer',
+        'gtin_code' => 'string',
         'name' => 'string',
         'description' => 'string',
         'presentation' => 'string',

@@ -26,8 +26,9 @@ class ProductSeeder extends Seeder
         // Crea productos con datos específicos
         Product::create([
             'category_id' => $category_id,
+            'gtin_code' => '8470007210337',
             'name' => 'Naproxeno Sodico 550 mg',
-            'description' => 'Antiinflamatorio no esteroideo',
+            'description' => 'Antinflamatorio no esteroideo',
             'presentation' => 'Comprimidos',
             'stock' => 10,
             'max_stock' => 20,
@@ -41,6 +42,7 @@ class ProductSeeder extends Seeder
         ]);
         Product::create([
             'category_id' => $category_id,
+            'gtin_code' => '7502009745607',
             'name' => 'Cefalexina 500 mg',
             'description' => 'Antibiótico',
             'presentation' => 'Cápsulas',
@@ -56,6 +58,7 @@ class ProductSeeder extends Seeder
         ]);
         Product::create([
             'category_id' => $category_id,
+            'gtin_code' => '8470007061335',
             'name' => 'Fexofenadina 120 mg',
             'description' => 'Antihistamínico',
             'presentation' => 'Comprimidos',
@@ -71,6 +74,7 @@ class ProductSeeder extends Seeder
         ]);
         Product::create([
             'category_id' => $category_id,
+            'gtin_code' => '7501125196386',
             'name' => 'Ciprofloxacino 500 mg',
             'description' => 'Antibiótico',
             'presentation' => 'Comprimidos',
@@ -86,6 +90,7 @@ class ProductSeeder extends Seeder
         ]);
         Product::create([
             'category_id' => $category_id,
+            'gtin_code' => '7501125115479',
             'name' => 'Cloruro de sodio 0.9% 1000 ml',
             'description' => 'Solución salina',
             'presentation' => 'Solución intravenosa',
