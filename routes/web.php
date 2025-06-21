@@ -31,9 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('inventories')->name('inventories.')->group(function () {
         Route::get('inventory-by-shift', [InventoryController::class, 'inventoryByShift'])->name('inventory_by_shift');
         Route::get('shift-management', [InventoryController::class, 'shiftManagement'])->name('shift_management');
+        Route::get('restock-inventory', [InventoryController::class, 'restockInventory'])->name('restock_inventory');
         Route::get('get-inventory-request-information', [InventoryController::class, 'getInventoryRequestInformation'])->name('get_inventory_request_information');
         Route::get('get-inventory-information', [InventoryController::class, 'getInventoryInformation'])->name('get_inventory_information');
         Route::post('save-shift-inventory-information', [InventoryController::class, 'saveShiftInventoryInformation'])->name('save_shift_inventory_information');
+        Route::patch('update-inventory-stock', [InventoryController::class, 'updateInventoryStock'])->name('update_inventory_stock');
         Route::patch('update-shift-inventory-information', [InventoryController::class, 'updateShiftInventoryInformation'])->name('update_shift_inventory_information');
     });
 
@@ -45,7 +47,9 @@ Route::middleware('auth')->group(function () {
     // Productos
     Route::prefix('products')->name('products.')->group(function () {
         Route::get('get-product-information', [ProductController::class, 'getProductInformation'])->name('get_product_information');
+        Route::get('load-product-information', [ProductController::class, 'loadProductInformation'])->name('load_product_information');
         Route::get('search-product-information', [ProductController::class, 'searchProductInformation'])->name('search_product_information');
+        Route::patch('update-product-stock', [ProductController::class, 'updateProductStock'])->name('update_product_stock');
     });
 
     // Turnos

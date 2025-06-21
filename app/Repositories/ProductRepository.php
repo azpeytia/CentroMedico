@@ -45,4 +45,20 @@ class ProductRepository
     {
         return Product::where('name', 'like', "%$eventRecord%")->get();
     }
+
+    public function findByGtinBarCode($eventRecord)
+    {
+        return Product::where('gtin_code', $eventRecord)->first();
+    }
+
+    public function updateProductStock(int $gtinBarCode, int $quantity): ?Product
+    {
+        $product = $this->findByGtinBarCode($gtinBarCode);
+
+        if ($product) {
+            $product->stock += $quantity;
+            $product->save();
+        }
+        return $product;
+    }
 }

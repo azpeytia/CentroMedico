@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\DTOs\EventResultDTO;
 use App\Http\Requests\SaveShiftInventoryRequest;
 use App\Http\Requests\UpdateShiftInventoryRequest;
+use App\Http\Requests\Inventories\UpdateInventoryStockRequest;
 use App\Services\InventoryService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class InventoryController extends Controller
 {
@@ -27,6 +29,11 @@ class InventoryController extends Controller
         return view('inventories.shift-management');
     }
 
+    public function restockInventory()
+    {
+        return view('inventories.restock-inventory');
+    }
+
     public function saveShiftInventoryInformation(SaveShiftInventoryRequest $request, EventResultDTO $eventResultDTO)
     {
         $productRecords = $request->validated();
@@ -44,6 +51,13 @@ class InventoryController extends Controller
         }
 
         return response()->json($eventResultDTO);
+    }
+
+    public function updateInventoryStock(UpdateInventoryStockRequest $request): JsonResponse
+    {
+        $result = $this->inventoryService->updateInventoryStock($request);
+
+        return response()->json($result);
     }
 
     public function updateShiftInventoryInformation(UpdateShiftInventoryRequest $request, EventResultDTO $eventResultDTO)

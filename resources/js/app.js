@@ -17,6 +17,7 @@ import {
 // Archivos internos de servicios Region inventario
 import {
     save_shift_inventory_information,
+    update_inventory_stock,
     update_shift_inventory_information,
     get_inventory_request_information,
     get_inventory_information,
@@ -33,6 +34,8 @@ import {
 import {
     get_product_information,
     search_product_information,
+    load_product_information,
+    update_product_stock,
 } from './services/productService';
 // Endregion productos
 
@@ -54,6 +57,7 @@ import {
 
 // Archivos internos de páginas
 import './pages/inventory-by-shift';
+import './pages/restock-inventory';
 import './pages/shift-management';
 import './pages/sale';
 
@@ -65,6 +69,7 @@ window.ExcelJS = ExcelJS;
 
 // Configuración global Region inventarios
 window.save_shift_inventory_information = save_shift_inventory_information;
+window.update_inventory_stock = update_inventory_stock;
 window.update_shift_inventory_information = update_shift_inventory_information;
 window.get_inventory_request_information = get_inventory_request_information;
 window.get_inventory_information = get_inventory_information;
@@ -77,6 +82,8 @@ window.search_patient_information = search_patient_information;
 // Configuración global Region productos
 window.get_product_information = get_product_information;
 window.search_product_information = search_product_information;
+window.load_product_information = load_product_information;
+window.update_product_stock = update_product_stock;
 // Endregion productos
 
 // Configuración global Region ventas

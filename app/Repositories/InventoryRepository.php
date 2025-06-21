@@ -21,6 +21,18 @@ class InventoryRepository
         return null;
     }
 
+    public function updateInventoryStock(int $productId, int $quantity): ?Inventory
+    {
+        $inventory = Inventory::where('product_id', $productId)
+            ->first();
+
+        if ($inventory) {
+            $inventory->opening_stock += (int)$quantity;
+            $inventory->save();
+        }
+        return $inventory;
+    }
+
     public function findByProductShiftAndDate($productId, $shiftId, $shiftDate)
     {
         return Inventory::where('product_id', $productId)
