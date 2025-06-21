@@ -86,7 +86,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('inventories.restock_inventory') }}">
                     <i class="bi bi-truck"></i> Surtir inventario
                 </a>
             </li>

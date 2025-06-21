@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\EventResultDTO;
+use App\Http\Requests\Products\LoadProductInformationRequest;
+use App\Http\Requests\Products\UpdateProductStockRequest;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
@@ -39,6 +42,13 @@ class ProductController extends Controller
         return response()->json($eventResultDTO);
     }
 
+    public function loadProductInformation(LoadProductInformationRequest $request): JsonResponse
+    {
+        $eventResultDTO = $this->productService->loadProductInformation($request);
+
+        return response()->json($eventResultDTO);
+    }
+
     public function searchProductInformation(Request $request, EventResultDTO $eventResultDTO) {
         try {
             $records = $this->productService->searchProductInformation($request->eventRecord);
@@ -57,6 +67,13 @@ class ProductController extends Controller
 
             return response()->json($eventResultDTO, 500);
         }
+
+        return response()->json($eventResultDTO);
+    }
+
+    public function updateProductStock(UpdateProductStockRequest $request): JsonResponse
+    {
+        $eventResultDTO = $this->productService->updateProductStock($request);
 
         return response()->json($eventResultDTO);
     }

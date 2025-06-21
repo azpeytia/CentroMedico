@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\DTOs\EventResultDTO;
+use App\Http\Requests\Inventories\UpdateInventoryStockRequest;
 use App\Repositories\InventoryRepository;
 
 class InventoryService
@@ -43,6 +45,28 @@ class InventoryService
             }
         }
         return true;
+    }
+
+    public function updateInventoryStock(UpdateInventoryStockRequest $request): EventResultDTO
+    {
+        $eventResultDTO = new EventResultDTO();
+
+        try {
+            $inventory = $this->inventoryRepository->updateInventoryStock(
+                $request->input('productId'),
+                (int) $request->input('quantity'),
+            );
+
+            if (!$inventory) {
+                return EventResultDTO::error('No se encontró un producto con el código de barras proporcionado');
+            }
+
+            return EventResultDTO::success('Producto actualizado exitosamente', [
+                'inventoryRecord' => $inventory
+            ]);
+        } catch (\Exception $e) {
+            return EventResultDTO::error('Error inesperado: ' . $e->getMessage());
+        }
     }
 
     public function getInventoryRequestInformation($shiftId, $shiftDate)
