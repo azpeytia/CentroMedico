@@ -22,11 +22,28 @@ export function get_product_information() {
 }
 
 export function load_product_information(gtinBarCode) {
-    return $.ajax({
-        type: "GET",
-        url: "/products/load-product-information",
-        data: { gtinBarCode },
-        dataType: "json"
+    const url = "/products/load-product-information";
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    return new Promise((resolve,reject) => {
+        $.ajax({
+            type: "GET",
+            url: url,
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            data: {
+                gtinBarCode: gtinBarCode
+            },
+            dataType: "json",
+            success: function(eventResultDTO) {
+                resolve(eventResultDTO);
+            },
+            error: function(errors) {
+                var data = errors.responseJSON;
+                reject(data);
+            }
+        });
     });
 }
 

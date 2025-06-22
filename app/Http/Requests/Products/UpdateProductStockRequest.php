@@ -19,13 +19,13 @@ class UpdateProductStockRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-        public function rules(): array
-        {
-            return [
-                'gtinBarCode' => ['required', 'integer', 'exists:products,gtin_code'],
-                'quantity' => ['required', 'integer', 'min:1'],
-            ];
-        }
+    public function rules(): array
+    {
+        return [
+            'gtinBarCode' => ['required', 'integer', 'exists:products,gtin_code'],
+            'quantity' => ['required', 'integer', 'min:1'],
+        ];
+    }
 
     /**
      * Get the error messages for the defined validation rules.

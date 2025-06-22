@@ -19,6 +19,7 @@
             </div>
             <input type="hidden" id="product_id" value="">
             <button type="submit" class="btn btn-primary" id="restock">Reabastecer</button>
+            <a href="{{ route('dashboard') }}" class="btn btn-danger">Cancelar</a>
         </form>
     </div>
 @endsection
