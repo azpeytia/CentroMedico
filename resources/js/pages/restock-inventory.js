@@ -26,6 +26,13 @@ async function loadProductInformation() {
 
     try {
         const eventResultDTO = await load_product_information(gtinBarCode);
+
+        if (!eventResultDTO.result) {
+            document.getElementById('gtinBarCode').value = '';
+            setFocusGtinBarCode();
+            return handleResponse(eventResultDTO);
+        }
+
         document.getElementById('product').value = eventResultDTO.values.productRecord.name;
         document.getElementById('product_id').value = eventResultDTO.values.productRecord.id;
     } catch (error) {
@@ -39,7 +46,7 @@ function restockInventory() {
         event.preventDefault();
 
         updateProductStock();
-        updateInventoryStock();
+        //updateInventoryStock();
     })
 }
 
@@ -57,7 +64,10 @@ async function updateProductStock() {
         if (!eventResultDTO.result) {
             return handleResponse(eventResultDTO);
         }
+
+        updateInventoryStock();
     } catch (error) {
+        setFocusGtinBarCode();
         swalResponse(error);
     }
 }
@@ -76,6 +86,13 @@ async function updateInventoryStock() {
         if (!eventResultDTO.result) {
             return handleResponse(eventResultDTO);
         }
+
+        document.getElementById('gtinBarCode').value = '';
+        document.getElementById('quantity').value = '';
+        document.getElementById('product').value = '';
+        document.getElementById('product_id').value = '';
+
+        setFocusGtinBarCode();
 
         swalResponse(eventResultDTO);
     } catch (error) {

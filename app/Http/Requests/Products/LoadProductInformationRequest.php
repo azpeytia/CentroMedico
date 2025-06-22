@@ -22,7 +22,7 @@ class LoadProductInformationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'gtinBarCode' => ['required', 'string'],
+            'gtinBarCode' => ['required', 'integer', 'exists:products,gtin_code'],
         ];
     }
 
@@ -36,6 +36,7 @@ class LoadProductInformationRequest extends FormRequest
         return [
             'gtinBarCode.required' => 'El :attribute es requerido',
             'gtinBarCode.string' => 'El :attribute debe ser un número entero',
+            'gtinBarCode.exists' => 'El :attribute no existe en la base de datos',
         ];
     }
 
@@ -49,5 +50,15 @@ class LoadProductInformationRequest extends FormRequest
         return [
             'gtinBarCode' => 'código de barras',
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'gtinBarCode' => (int) data_get($this->input('productQuantity'), 'gtinBarCode'),
+        ]);
     }
 }
