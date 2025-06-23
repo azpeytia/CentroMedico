@@ -8,6 +8,7 @@ function initializePage() {
     setFocusGtinBarCode();
     captureQuantity();
     restockInventory();
+    searchProduct();
 }
 
 function setFocusGtinBarCode() {
@@ -17,7 +18,11 @@ function setFocusGtinBarCode() {
 function captureQuantity() {
     document.getElementById('quantity').addEventListener('click', function(event) {
         event.preventDefault();
-        loadProductInformation();
+
+        if (document.getElementById('product').value === '') {
+            loadProductInformation();
+        }
+        //loadProductInformation();
     })
 }
 
@@ -42,7 +47,7 @@ async function loadProductInformation() {
 }
 
 function restockInventory() {
-    document.getElementById('restock').addEventListener('click', async function(event) {
+    document.getElementById('restock').addEventListener('click', function(event) {
         event.preventDefault();
 
         updateProductStock();
@@ -98,6 +103,73 @@ async function updateInventoryStock() {
     } catch (error) {
         swalResponse(error);
     }
+}
+
+function searchProduct() {
+    const searchButton = document.getElementById('search');
+    const modalElement = document.getElementById('searchProductModal');
+    const input = document.getElementById('searchProductInput');
+    const resultsList = document.getElementById('searchProductList');
+
+    if (!searchButton || !modalElement || !input || !resultsList) {
+        return;
+    }
+
+    const modal = new bootstrap.Modal(modalElement, {
+        backdrop: 'static',
+        keyboard: false
+    });
+
+    searchButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        modal.show();
+        input.value = '';
+        resultsList.innerHTML = '';
+    });
+
+    input.addEventListener('input', async function() {
+        const eventRecord = input.value.trim();
+        if (eventRecord.length < 3) {
+            resultsList.innerHTML = '';
+            return;
+        }
+
+        try {
+            const eventResultDTO = await search_product_information(eventRecord);
+            resultsList.innerHTML = '';
+
+            if (!eventResultDTO.result) {
+                swalResponse(eventResultDTO);
+                return;
+            }
+
+            eventResultDTO.values.productRecords.forEach(product => {
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item';
+                listItem.textContent = product.name;
+                listItem.dataset.productId = product.id;
+                listItem.addEventListener('click', function() {
+                    document.getElementById('product').value = product.name;
+                    document.getElementById('product_id').value = product.id;
+                    modal.hide();
+                    document.getElementById('gtinBarCode').value = product.gtin_code;
+                    document.getElementById('quantity').value = '';
+                    resultsList.innerHTML = '';
+                    setFocusGtinBarCode();
+                });
+                resultsList.appendChild(listItem);
+            });
+        } catch (error) {
+            swalResponse(error);
+        }
+    });
+    modalElement.addEventListener('hidden.bs.modal', function() {
+        input.value = '';
+        resultsList.innerHTML = '';
+    });
+    modalElement.addEventListener('shown.bs.modal', function() {
+        input.focus();
+    });
 }
 
 function handleResponse(eventResultDTO) {
