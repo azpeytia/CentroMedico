@@ -22,6 +22,26 @@
             <a href="{{ route('dashboard') }}" class="btn btn-danger">Cancelar</a>
         </form>
     </div>
+    <!-- Modal para busqueda de productos -->
+    <div class="modal fade" id="searchProductModal" tabindex="-1" aria-labelledby="searchProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="searchProductModalLabel">Buscar producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="searchProductInput" class="form-control mb-3" placeholder="Escribe el nombre del producto">
+                    <ul id="searchProductList" class="list-group">
+                        <!-- Lista de productos se llenará dinámicamente -->
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 <script>
