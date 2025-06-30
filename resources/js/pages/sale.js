@@ -318,7 +318,7 @@ function checkMinimumStock(row) {
         swalResponse({ result: true, message: ERROR_MESSAGES.stockZero });
     } else if (futureStock <= minimumStock) {
         swalResponse({ result: true, message: ERROR_MESSAGES.stockMinimum });
-        row.find(SELECTORS.inputSaleQuantity).val(minimumStock);
+        row.find(SELECTORS.inputSaleQuantity).val(quantity);
     }
 }
 
@@ -393,6 +393,8 @@ function saveReceiptSale() {
 
 function getSaleData() {
     // Construir el objeto de datos de la venta
+    const mysqlDateValue = $(SELECTORS.mysqlDate).val();
+    const shiftDate = mysqlDateValue.split(' ')[0];
     return {
         patient_id: parseInt($(SELECTORS.inputSalePatientId).val()) || 0,
         shift_id: parseInt($(SELECTORS.shiftId).val()) || 0,
@@ -403,6 +405,7 @@ function getSaleData() {
         is_active: 1,
         is_suspended: 0,
         is_deleted: 0,
+        shift_date: shiftDate,
     };
 }
 
