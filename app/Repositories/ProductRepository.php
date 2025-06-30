@@ -43,7 +43,9 @@ class ProductRepository
 
     public function findByName($eventRecord)
     {
-        return Product::where('name', 'like', "%$eventRecord%")->get();
+        return Product::where('name', 'like', "%$eventRecord%")
+            ->where('stock', '>', 0)
+            ->get();
     }
 
     public function findByGtinBarCode($eventRecord)
