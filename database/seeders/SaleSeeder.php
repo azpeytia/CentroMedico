@@ -81,8 +81,9 @@ class SaleSeeder extends Seeder
             $user = User::create([
                 'name' => 'Test User',
                 'email' => 'test@example.com',
+                'email_verified_at' => now(),
                 'password' => bcrypt('password'),
-                'role' => 'user',
+                'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
