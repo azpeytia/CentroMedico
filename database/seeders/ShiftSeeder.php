@@ -32,8 +32,9 @@ class ShiftSeeder extends Seeder
             $user = User::create([
                 'name' => 'Test User',
                 'email' => 'test@example.com',
+                'email_verified_at' => now(),
                 'password' => bcrypt('password'),
-                'role' => 'user',
+                'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -51,6 +52,7 @@ class ShiftSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
         Shift::create([
             'user_id' => $user_id,
             'name' => 'Vespertino',
@@ -61,6 +63,7 @@ class ShiftSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
         Shift::create([
             'user_id' => $user_id,
             'name' => 'Nocturno',
@@ -71,6 +74,7 @@ class ShiftSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
         Shift::create([
             'user_id' => $user_id,
             'name' => 'Nocturno',
