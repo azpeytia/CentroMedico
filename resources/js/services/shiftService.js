@@ -42,13 +42,24 @@ export function update_shift_status(shiftRecord) {
 }
 
 export function update_previous_shift_status(eventRecord) {
-    return $.ajax({
-        type: "PATCH",
-        url: "/shifts/update-previous-shift-status",
-        headers: {
-            'X-CSRF-TOKEN': getCsrfToken()
-        },
-        data: { eventRecord },
-        dataType: "json"
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "PATCH",
+            url: "/shifts/update-previous-shift-status",
+            headers: {
+                'X-CSRF-TOKEN': getCsrfToken()
+            },
+            data: {
+                eventRecord: eventRecord
+            },
+            dataType: "json",
+            success: function(eventResultDTO) {
+                resolve(eventResultDTO);
+            },
+            error: function(errors) {
+                var data = errors.responseJSON;
+                reject(data);
+            }
+        });
     });
 }

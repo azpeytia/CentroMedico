@@ -138,7 +138,7 @@ class ShiftService
         $eventResultDTO = new EventResultDTO();
 
         try {
-            $shiftRecords = $this->shiftRepository->finishPrevious($request->input('eventRecord.shiftId'));
+            $shiftRecords = $this->shiftRepository->finishPrevious($request->input('eventRecord'));
 
             if (!$shiftRecords) {
                 $eventResultDTO->result = false;
@@ -154,7 +154,7 @@ class ShiftService
         }
 
         $eventResultDTO->values['shiftRecords'] = $shiftRecords;
-        $eventResultDTO->message = 'Turno anterior finalizado correctamente';
+        $eventResultDTO->message = 'Turno anterior finalizado exitosamente';
 
         return $eventResultDTO;
     }

@@ -22,7 +22,7 @@ class UpdatePreviousShiftStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'eventRecord' => ['required', 'integer'],
+            'eventRecord' => ['required', 'integer', 'in:1,2,3'],
         ];
     }
 
@@ -36,6 +36,7 @@ class UpdatePreviousShiftStatusRequest extends FormRequest
         return [
             'eventRecord.required' => 'El :attribute del turno es obligatorio',
             'eventRecord.integer' => 'El :attribute del turno debe ser un número entero',
+            'eventRecord.in' => 'El :attribute del turno debe ser 1, 2 o 3',
         ];
     }
 
@@ -49,5 +50,15 @@ class UpdatePreviousShiftStatusRequest extends FormRequest
         return [
             'eventRecord' => 'ID del turno',
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'eventRecord' => (int) $this->input('eventRecord'),
+        ]);
     }
 }
