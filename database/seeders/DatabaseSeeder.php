@@ -17,16 +17,35 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
+        /* User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+        ]); */
+
+        User::create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'user',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('adminCR2025'),
+            'role' => 'admin',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         $this->call(CategorySeeder::class);
-        $this->call(PatientSeeder::class);
         $this->call(ProductSeeder::class);
         $this->call(ShiftSeeder::class);
         $this->call(InventorySeeder::class);
+        $this->call(PatientSeeder::class);
         $this->call(SaleSeeder::class);
+        $this->call(SaleProductSeeder::class);
     }
 }

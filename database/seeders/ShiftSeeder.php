@@ -14,14 +14,31 @@ class ShiftSeeder extends Seeder
      */
     public function run(): void
     {
-        $user_id = User::first()->id;
+        // Se elimina lo siguiente para evitar problemas al correr el seeder en producción, se puede quitar si se desea generar
+        // registros en desarrollo.
+
+        /* $user_id = User::first()->id;
         if (!$user_id) {
             $user = User::factory()->create();
             $user_id = $user->id;
         }
 
         // Crea los turnos asociados al primer usuario
-        //Shift::factory()->count(5)->create(['user_id' => $user_id]);
+        Shift::factory()->count(5)->create(['user_id' => $user_id]); */
+
+        // Genera una usuario base para los turnos
+        $user = User::first();
+        if (!$user) {
+            $user = User::create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+                'password' => bcrypt('password'),
+                'role' => 'user',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+        $user_id = $user->id;
 
         // Crea turnos con datos específicos
         Shift::create([
