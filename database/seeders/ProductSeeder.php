@@ -14,14 +14,32 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $category_id = Category::first()->id;
+        // Se elimina lo siguiente para evitar problemas al correr el seeder en producción, se puede quitar si se desea generar
+        // registros en desarrollo.
+
+        /* $category_id = Category::first()->id;
         if (!$category_id) {
             $category = Category::factory()->create();
             $category_id = $category->id;
         }
 
         // Crea los productos asociados a la primera categoría
-        // Product::factory()->count(5)->create(['category_id' => $category_id]);
+        Product::factory()->count(5)->create(['category_id' => $category_id]); */
+
+        // Genera una categoría base para los productos
+        $category = Category::first();
+        if (!$category) {
+            $category = Category::create([
+                'name' => 'Medicamentos',
+                'description' => 'Medicamentos de uso general',
+                'is_active' => true,
+                'is_suspended' => false,
+                'is_deleted' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+        $category_id = $category->id;
 
         // Crea productos con datos específicos
         Product::create([
