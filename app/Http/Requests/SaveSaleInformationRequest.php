@@ -95,10 +95,27 @@ class SaveSaleInformationRequest extends FormRequest
             'user_id' => 'usuario',
             'total' => 'total',
             'status' => 'estatus',
-            'payment_method' => 'método de pago',            
+            'payment_method' => 'método de pago',
             'is_active' => 'activo',
             'is_suspended' => 'suspendido',
             'is_deleted' => 'eliminado',
         ];
-    }    
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param \Illuminate\Contracts\Validation\Validator $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $products = $this->input('products', []);
+            $productIds = array_column($products, 'product_id');
+            if (count($productIds) !== count(array_unique($productIds))) {
+                $validator->errors()->add('products', 'No se permiten productos duplicados en la venta.');
+            }
+        });
+    }
 }

@@ -237,6 +237,11 @@ function addNewProductRow() {
     let productRow = $(SELECTORS.productRowTemplate).html();
     $(SELECTORS.divSaleDetail).append(productRow);
 
+    // Deshabilita solo el botón del primer renglón, habilita los demás
+    $(SELECTORS.productRow).each(function(index) {
+        $(this).find(SELECTORS.removeProductButton).prop('disabled', index === 0);
+    });
+
     $(SELECTORS.divSaleDetail).find(SELECTORS.productRow).last().find(SELECTORS.inputSaleProduct).focus();
 }
 
