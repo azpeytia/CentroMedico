@@ -96,7 +96,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('inventories.inventory_requisition') }}">
                     <i class="bi bi-sticky"></i> Crear requisición
                 </a>
             </li>

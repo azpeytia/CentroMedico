@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
         Route::get('restock-inventory', [InventoryController::class, 'restockInventory'])->name('restock_inventory');
         Route::get('get-inventory-request-information', [InventoryController::class, 'getInventoryRequestInformation'])->name('get_inventory_request_information');
         Route::get('get-inventory-information', [InventoryController::class, 'getInventoryInformation'])->name('get_inventory_information');
+        Route::get('inventory-requisition', [InventoryController::class, 'inventoryRequisition'])->name('inventory_requisition');
         Route::post('save-shift-inventory-information', [InventoryController::class, 'saveShiftInventoryInformation'])->name('save_shift_inventory_information');
         Route::patch('update-inventory-stock', [InventoryController::class, 'updateInventoryStock'])->name('update_inventory_stock');
         Route::patch('update-shift-inventory-information', [InventoryController::class, 'updateShiftInventoryInformation'])->name('update_shift_inventory_information');

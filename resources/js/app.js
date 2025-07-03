@@ -57,6 +57,7 @@ import {
 
 // Archivos internos de páginas
 import './pages/inventory-by-shift';
+import './pages/inventory-requisition';
 import './pages/restock-inventory';
 import './pages/shift-management';
 import './pages/sale';
@@ -80,7 +81,7 @@ window.search_patient_information = search_patient_information;
 // Endregion pacientes
 
 // Configuración global Region productos
-window.get_product_information = get_product_information;
+//window.get_product_information = get_product_information;
 window.search_product_information = search_product_information;
 window.load_product_information = load_product_information;
 window.update_product_stock = update_product_stock;

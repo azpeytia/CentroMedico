@@ -1,3 +1,5 @@
+import { get_product_information } from "../services/productService";
+
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof updateDateTime === 'function') {
         updateDateTime();

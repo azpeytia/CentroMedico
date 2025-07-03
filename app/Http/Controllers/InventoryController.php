@@ -34,6 +34,11 @@ class InventoryController extends Controller
         return view('inventories.restock-inventory');
     }
 
+    public function inventoryRequisition(Request $request, EventResultDTO $eventResultDTO)
+    {
+        return view('inventories.inventory-requisition');
+    }
+
     public function saveShiftInventoryInformation(SaveShiftInventoryRequest $request, EventResultDTO $eventResultDTO)
     {
         $productRecords = $request->validated();
