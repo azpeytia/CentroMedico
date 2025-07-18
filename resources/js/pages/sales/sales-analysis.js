@@ -1,5 +1,6 @@
 import { get_sale_information } from "../../services/saleService";
 let localStartTime, localEndTime;
+let salesByShift = 0, salesByDay = 0, salesByWeek = 0, salesByMonth = 0, salesByYear = 0;
 
 document.addEventListener('DOMContentLoaded', async function() {
     await loadShiftInformation();
@@ -8,10 +9,15 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 function initializePage() {
-    loadSalesByShift();
-    loadSalesByDay();
-    loadSalesByWeek();
-    loadSalesByMonth();
+    Promise.all([
+        loadSalesByShift(),
+        loadSalesByDay(),
+        loadSalesByWeek(),
+        loadSalesByMonth(),
+        loadSalesByYear()
+    ]).then(() => {
+        initializeSalesComparisonChart();
+    });
 }
 
 async function loadShiftInformation() {
@@ -44,7 +50,8 @@ async function loadSalesByShift() {
         if (eventResultDTO.result) {
             document.getElementById('sales-shift-value').textContent =
                 '$' + Number(eventResultDTO.values.sales).toLocaleString();
-        } else {
+            salesByShift = Number(eventResultDTO.values.sales) || 0;
+            } else {
             document.getElementById('sales-shift-value').textContent = '$0';
         }
     } catch (error) {
@@ -69,7 +76,8 @@ async function loadSalesByDay() {
         if (eventResultDTO.result) {
             document.getElementById('sales-day-value').textContent =
                 '$' + Number(eventResultDTO.values.sales).toLocaleString();
-        } else {
+            salesByDay = Number(eventResultDTO.values.sales) || 0;
+            } else {
             document.getElementById('sales-day-value').textContent = '$0';
         }
     } catch (error) {
@@ -94,11 +102,10 @@ async function loadSalesByWeek() {
         if (eventResultDTO.result) {
             document.getElementById('sales-week-value').textContent =
                 '$' + Number(eventResultDTO.values.sales).toLocaleString();
-        } else {
+            salesByWeek = Number(eventResultDTO.values.sales) || 0;
+            } else {
             document.getElementById('sales-week-value').textContent = '$0';
         }
-
-        initializeSalesChart(eventResultDTO);
     } catch (error) {
         swalresponse(error);
     }
@@ -124,11 +131,32 @@ async function loadSalesByMonth() {
         if (eventResultDTO.result) {
             document.getElementById('sales-month-value').textContent = 
                 '$' + Number(eventResultDTO.values.sales).toLocaleString();
-        } else {
+            salesByMonth = Number(eventResultDTO.values.sales) || 0;
+            } else {
             document.getElementById('sales-month-value').textContent = '$0';
         }
     } catch (error) {
         swalresponse(error);
+    }
+}
+
+async function loadSalesByYear() {
+    const today = new Date();
+    const startOfYear = new Date(today.getFullYear(), 0, 1, 0, 0, 0);
+    const endOfYear = new Date(today.getFullYear(), 11, 31, 23, 59, 59);
+
+    const eventRecord = {
+        startDate: formatDateToMySQL(startOfYear),
+        endDate: formatDateToMySQL(endOfYear),
+        category: 'year',
+    };
+
+    try {
+        const eventResultDTO = await get_sale_information(eventRecord);
+
+        salesByYear = eventResultDTO.result ? Number(eventResultDTO.values.sales) : 0;
+    } catch (error) {
+        salesByYear = 0;
     }
 }
 
@@ -145,22 +173,22 @@ function formatDateToMySQL(date) {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
-function initializeSalesChart(eventResultDTO) {
-    const ctx = document.getElementById('salesChart').getContext('2d');
-
+function initializeSalesComparisonChart() {
+    const ctx = document.getElementById('salesComparisonChart').getContext('2d');
     new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
-            labels: eventResultDTO.labels,
+            labels: ['Turno', 'Día', 'Semana', 'Mes', 'Año'],
             datasets: [{
-                label: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
-                data: eventResultDTO.data,
-                backgroundColor: 'rgba(13, 110, 253, 0.2)',
-                borderColor: '#0d6efd',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.4,
-                pointBackgroundColor: '#0d6efd'
+                label: 'Ventas',
+                data: [salesByShift, salesByDay, salesByWeek, salesByMonth, salesByYear],
+                backgroundColor: [
+                    '#0d6efd', '#198754', '#ffc107', '#dc3545', '#6c757d'
+                ],
+                borderColor: [
+                    '#0d6efd', '#198754', '#ffc107', '#dc3545', '#6c757d'
+                ],
+                borderWidth: 1
             }]
         },
         options: {

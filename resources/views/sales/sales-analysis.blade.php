@@ -50,10 +50,10 @@
             </div>
         </div>
 
-        <div class="card shadow-sm border-0">
+        <div class="card shadow-sm border-0 mt-4">
             <div class="card-body">
-                <h6 class="text-muted mb-3">Ventas Diarias</h6>
-                <canvas id="salesChart" height="100"></canvas>
+                <h6 class="text-muted mb-3">Comparativo de Ventas</h6>
+                <canvas id="salesComparisonChart" height="100"></canvas>
             </div>
         </div>
     </div>
