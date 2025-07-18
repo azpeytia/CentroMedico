@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTOs\EventResultDTO;
+use App\Http\Requests\Sales\GetSaleInformationRequest;
 use App\Repositories\InventoryRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\SaleRepository;
@@ -26,6 +27,39 @@ class SaleService
         $this->productRepository = $productRepository;
         $this->saleRepository = $saleRepository;
         $this->saleProductRepository = $saleProductRepository;
+    }
+
+    public function getSaleInformation(GetSaleInformationRequest $request)
+    {
+        $eventResultDTO = new EventResultDTO();
+        $category = $request->input('category');
+
+        try {
+            $sales = $this->saleRepository->getSalesByPeriod($request->input('startDate'), $request->input('endDate'));
+
+            if(!$sales) {
+                $eventResultDTO->result = false;
+                $eventResultDTO->message = 'No hay ventas registradas en este periodo';
+
+                return $eventResultDTO;
+            }
+
+            $salesTotal = 0;
+
+            foreach($sales as $sale) {
+                $salesTotal += number_format($sale->total, 2, '.', '');
+            }
+
+            $eventResultDTO->values['sales'] = $salesTotal;
+            $eventResultDTO->message = 'Ventas encontradas';
+        } catch (\Exception $e) {
+            $eventResultDTO->result = false;
+            $eventResultDTO->message = 'Proceso fallido: ' . $e->getMessage();
+
+            return $eventResultDTO;
+        }
+
+        return $eventResultDTO;
     }
 
     public function saveSaleInformation($request): EventResultDTO

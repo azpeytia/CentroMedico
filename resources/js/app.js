@@ -2,6 +2,7 @@
 import Alpine from 'alpinejs';
 import Swal from 'sweetalert2';
 import ExcelJS from 'exceljs';
+import Chart from 'chart.js/auto';
 
 // 2. Archivos internos
 import './bootstrap';
@@ -41,6 +42,8 @@ import {
 
 // Archivos internos de servicios Region ventas
 import {
+    get_sale_information,
+    get_sale_information_by_shift,
     save_sale_information,
 } from './services/saleService';
 // Endregion ventas
@@ -61,12 +64,14 @@ import './pages/inventory-requisition';
 import './pages/restock-inventory';
 import './pages/shift-management';
 import './pages/sale';
+import './pages/sales/sales-analysis';
 
 // 3. Configuración global
 window.Alpine = Alpine;
 window.Swal = Swal;
 window.swalResponse = swalResponse;
 window.ExcelJS = ExcelJS;
+window.Chart = Chart;
 
 // Configuración global Region inventarios
 window.save_shift_inventory_information = save_shift_inventory_information;
@@ -88,6 +93,7 @@ window.update_product_stock = update_product_stock;
 // Endregion productos
 
 // Configuración global Region ventas
+window.get_sale_information_by_shift = get_sale_information_by_shift;
 window.save_sale_information = save_sale_information;
 // Endregion ventas
 
