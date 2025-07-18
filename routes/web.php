@@ -65,6 +65,9 @@ Route::middleware('auth')->group(function () {
     // Ventas
     Route::prefix('sales')->name('sales.')->group(function () {
         Route::get('create', [SaleController::class, 'create'])->name('create');
+        Route::get('sales-analysis', [SaleController::class, 'salesAnalysis'])->name('sales_analysis');
+        Route::get('get-sale-information', [SaleController::class, 'getSaleInformation'])->name('get_sale_information');
+        Route::get('get-sale-information-by-shift', [SaleController::class, 'getSaleInformationByShift'])->name('get_sale_information_by_shift');
         Route::post('save-sale-information', [SaleController::class, 'saveSaleInformation'])->name('save_sale_information');
     });
 });

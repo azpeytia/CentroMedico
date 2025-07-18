@@ -123,7 +123,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('sales.sales_analysis') }}">
                     <i class="bi bi-search"></i> Ventas realizadas
                 </a>
             </li>
