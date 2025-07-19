@@ -24,7 +24,7 @@ class GetSaleInformationRequest extends FormRequest
         return [
             'startDate' => ['required', 'date_format:Y-m-d H:i:s'],
             'endDate' => ['required', 'date_format:Y-m-d H:i:s'],
-            'category' => ['nullable', 'string', 'in:shift,day,week,month,year'],
+            'category' => ['nullable', 'string', 'in:hour,shift,day,week,month,year'],
         ];
     }
 
@@ -41,7 +41,7 @@ class GetSaleInformationRequest extends FormRequest
             'endDate.required' => 'La fecha de fin es obligatoria.',
             'endDate.date_format' => 'La fecha de fin debe tener el formato Y-m-d H:i:s.',
             'category.string' => 'La categoría debe ser una cadena de texto.',
-            'category.in' => 'La categoría debe ser una de las siguientes: shift, day, week, month, year.',
+            'category.in' => 'La categoría debe ser una de las siguientes: hour, shift, day, week, month, year.',
         ];
     }
 }

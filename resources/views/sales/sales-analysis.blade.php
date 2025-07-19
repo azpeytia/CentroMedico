@@ -8,10 +8,10 @@
 
         <div class="mb-4">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-primary active">Turno</button>
-                <button type="button" class="btn btn-outline-primary">Día</button>
-                <button type="button" class="btn btn-outline-primary">Semana</button>
-                <button type="button" class="btn btn-outline-primary">Mes</button>
+                <button type="button" class="btn btn-secondary rounded-pill" id="btn-shift">Turno</button>
+                <button type="button" class="btn btn-secondary rounded-pill" id="btn-day">Día</button>
+                <button type="button" class="btn btn-secondary rounded-pill" id="btn-week">Semana</button>
+                <button type="button" class="btn btn-secondary rounded-pill" id="btn-month">Mes</button>
             </div>
         </div>
 
