@@ -1,11 +1,31 @@
 import { get_sale_information } from "../../services/saleService";
-let localStartTime, localEndTime;
+let localStartTime = null, localEndTime = null, salesChartInstance = null;
 let salesByShift = 0, salesByDay = 0, salesByWeek = 0, salesByMonth = 0, salesByYear = 0;
 
 document.addEventListener('DOMContentLoaded', async function() {
     await loadShiftInformation();
     if (!document.getElementById('sales-analysis')) return;
     initializePage();
+    document.getElementById('btn-shift').addEventListener('click', async function() {
+        setActiveButton(this);
+        const data = await getSalesByHourOfShift();
+        updateSalesComparisonChart(data.labels, data.values, 'Ventas por Hora');
+    });
+    document.getElementById('btn-day').addEventListener('click', async function() {
+        setActiveButton(this);
+        const data = await getSalesByTurnOfDay();
+        updateSalesComparisonChart(data.labels, data.values, 'Ventas por Turno');
+    });
+    document.getElementById('btn-week').addEventListener('click', async function() {
+        setActiveButton(this);
+        const data = await getSalesByDayOfWeek();
+        updateSalesComparisonChart(data.labels, data.values, 'Ventas por Día');
+    });
+    document.getElementById('btn-month').addEventListener('click', async function() {
+        setActiveButton(this);
+        const data = await getSalesByWeekOfMonth();
+        updateSalesComparisonChart(data.labels, data.values, 'Ventas por Semana');
+    });
 });
 
 function initializePage() {
@@ -173,9 +193,14 @@ function formatDateToMySQL(date) {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
+function setActiveButton(btn) {
+    document.querySelectorAll('.btn-group .btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+
 function initializeSalesComparisonChart() {
     const ctx = document.getElementById('salesComparisonChart').getContext('2d');
-    new Chart(ctx, {
+    salesChartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: ['Turno', 'Día', 'Semana', 'Mes', 'Año'],
@@ -205,4 +230,124 @@ function initializeSalesComparisonChart() {
             }
         }
     });
+}
+
+// Actualiza la gráfica con nuevos datos
+function updateSalesComparisonChart(labels, values, label) {
+    salesChartInstance.data.labels = labels;
+    salesChartInstance.data.datasets[0].data = values;
+    salesChartInstance.data.datasets[0].label = label;
+    salesChartInstance.update();
+}
+
+// Obtiene ventas por hora del turno actual
+async function getSalesByHourOfShift() {
+    // Suponiendo que localStartTime y localEndTime están definidos
+    const labels = [];
+    const values = [];
+    let current = new Date(localStartTime);
+    while (current < localEndTime) {
+        const next = new Date(current);
+        next.setHours(current.getHours() + 1);
+        labels.push(current.getHours() + ':00');
+        const eventRecord = {
+            startDate: formatDateToMySQL(current),
+            endDate: formatDateToMySQL(next),
+            category: 'hour',
+        };
+        console.log(eventRecord);
+        try {
+            const eventResultDTO = await get_sale_information(eventRecord);
+            values.push(eventResultDTO.result ? Number(eventResultDTO.values.sales) : 0);
+        } catch {
+            values.push(0);
+        }
+        current = next;
+    }
+    return { labels, values };
+}
+
+// Obtiene ventas por turno del día actual
+async function getSalesByTurnOfDay() {
+    // Define los turnos según tu lógica de negocio
+    const turnos = [
+        { label: 'Mañana', start: 7, end: 13 },
+        { label: 'Tarde', start: 13, end: 23 },
+        { label: 'Noche', start: 23, end: 7 } // Noche abarca desde las 23 hasta las 7 del día siguiente
+    ];
+    const today = new Date();
+    const labels = [];
+    const values = [];
+    for (const turno of turnos) {
+        const start = new Date(today.getFullYear(), today.getMonth(), today.getDate(), turno.start, 0, 0);
+        const end = new Date(today.getFullYear(), today.getMonth(), today.getDate(), turno.end, 0, 0);
+        labels.push(turno.label);
+        const eventRecord = {
+            startDate: formatDateToMySQL(start),
+            endDate: formatDateToMySQL(end),
+            category: 'shift',
+        };
+        try {
+            const eventResultDTO = await get_sale_information(eventRecord);
+            values.push(eventResultDTO.result ? Number(eventResultDTO.values.sales) : 0);
+        } catch {
+            values.push(0);
+        }
+    }
+    return { labels, values };
+}
+
+// Obtiene ventas por día de la semana actual
+async function getSalesByDayOfWeek() {
+    const labels = [];
+    const values = [];
+    const today = new Date();
+    const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+    for (let i = 0; i < 7; i++) {
+        const day = new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate() + i);
+        labels.push(day.toLocaleDateString('es-ES', { weekday: 'short' }));
+        const start = new Date(day.getFullYear(), day.getMonth(), day.getDate(), 0, 0, 0);
+        const end = new Date(day.getFullYear(), day.getMonth(), day.getDate(), 23, 59, 59);
+        const eventRecord = {
+            startDate: formatDateToMySQL(start),
+            endDate: formatDateToMySQL(end),
+            category: 'day',
+        };
+        try {
+            const eventResultDTO = await get_sale_information(eventRecord);
+            values.push(eventResultDTO.result ? Number(eventResultDTO.values.sales) : 0);
+        } catch {
+            values.push(0);
+        }
+    }
+    return { labels, values };
+}
+
+// Obtiene ventas por semana del mes actual
+async function getSalesByWeekOfMonth() {
+    const labels = [];
+    const values = [];
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    let weekStart = new Date(year, month, 1);
+    let weekNum = 1;
+    while (weekStart.getMonth() === month) {
+        const weekEnd = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + 6, 23, 59, 59);
+        labels.push('Semana ' + weekNum);
+        const eventRecord = {
+            startDate: formatDateToMySQL(weekStart),
+            endDate: formatDateToMySQL(weekEnd),
+            category: 'week',
+        };
+        try {
+            const eventResultDTO = await get_sale_information(eventRecord);
+            values.push(eventResultDTO.result ? Number(eventResultDTO.values.sales) : 0);
+        } catch {
+            values.push(0);
+        }
+        weekStart = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + 7);
+        weekNum++;
+    }
+    return { labels, values };
 }
