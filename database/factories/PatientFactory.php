@@ -24,7 +24,7 @@ class PatientFactory extends Factory
             'state' => $this->faker->state(),
             'zip_code' => $this->faker->postcode(),
             'phone' => $this->faker->phoneNumber(),
-            'sex' => $this->faker->randomElement(['Masculino', 'Femenino', 'Sin especificar']),
+            'gender' => $this->faker->randomElement(['Masculino', 'Femenino', 'Sin especificar']),
             'birthdate' => $this->faker->date(),
             'is_active' => $this->faker->boolean(),
             'created_at' => $this->faker->dateTime(),

@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Patient extends Model
+class Doctor extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'address',
-        'city',
-        'state',
-        'zip_code',
+        'license_number',
+        'specialty',
         'phone',
-        'gender',
-        'date_of_birth',
+        'email',
         'is_active',
         'is_suspended',
         'is_deleted',
@@ -25,13 +22,10 @@ class Patient extends Model
 
     protected $casts = [
         'name' => 'string',
-        'address' => 'string',
-        'city' => 'string',
-        'state' => 'string',
-        'zip_code' => 'string',
+        'license_number' => 'string',
+        'specialty' => 'string',
         'phone' => 'string',
-        'gender' => 'string',
-        'date_of_birth' => 'date',
+        'email' => 'string',
         'is_active' => 'boolean',
         'is_suspended' => 'boolean',
         'is_deleted' => 'boolean',
@@ -48,18 +42,13 @@ class Patient extends Model
         return $this->hasMany(Consultation::class);
     }
 
-    public function doctors()
+    public function patients()
     {
-        return $this->hasManyThrough(Doctor::class, Consultation::class, 'patient_id', 'id', 'id', 'doctor_id');
+        return $this->hasManyThrough(Patient::class, Consultation::class, 'doctor_id', 'id', 'id', 'patient_id');
     }
 
     public function prescriptions()
     {
         return $this->hasMany(Prescription::class);
-    }
-
-    public function sales()
-    {
-        return $this->hasMany(Sale::class);
     }
 }

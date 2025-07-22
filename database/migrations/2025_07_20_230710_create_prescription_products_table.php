@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sale_products', function (Blueprint $table) {
+        Schema::create('prescription_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('sale_id');
+            $table->unsignedBigInteger('prescription_id');
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity')->default(1);
-            $table->decimal('unit_price', 10, 2);
-            $table->decimal('subtotal', 10, 2);
+            $table->string('dosage');
+            $table->string('frequency');
+            $table->string('duration');
+            $table->text('instructions')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
+            $table->foreign('prescription_id')->references('id')->on('prescriptions')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sale_products');
+        Schema::dropIfExists('prescription_products');
     }
 };
