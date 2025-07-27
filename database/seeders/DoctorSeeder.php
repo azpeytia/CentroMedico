@@ -18,7 +18,7 @@ class DoctorSeeder extends Seeder
 
         // Crea doctores con datos específicos
         Doctor::create([
-            'name' => 'Dr. Juan Perez',
+            'name' => 'Juan Perez',
             'license_number' => 'LIC123456',
             'specialty' => 'Cardiología',
             'phone' => '555-1234-5678',

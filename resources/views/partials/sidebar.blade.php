@@ -104,8 +104,20 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="bi bi-clipboard-heart"></i> Diagnósticos
+            <i class="bi bi-clipboard-heart"></i> Consultas
         </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('consultations.create') }}">
+                    <i class="bi bi-file-earmark-text"></i> Crear consulta
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-card-list"></i> Lista de consultas
+                </a>
+            </li>
+        </ul>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="#">
