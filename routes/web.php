@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
@@ -25,6 +27,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('update');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    });
+
+    // Consultas
+    Route::prefix('consultations')->name('consultations.')->group(function () {
+        Route::get('create', [ConsultationController::class, 'create'])->name('create');
+        Route::post('save-consultation-information', [ConsultationController::class, 'saveConsultationInformation'])->name('save_consultation_information');
+    });
+
+    // Doctores
+    Route::prefix('doctors')->name('doctors.')->group(function () {
+        Route::get('search-doctor-information', [DoctorController::class, 'searchDoctorInformation'])->name('search_doctor_information');
     });
 
     // Inventarios

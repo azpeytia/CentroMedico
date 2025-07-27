@@ -255,7 +255,7 @@ async function getSalesByHourOfShift() {
             endDate: formatDateToMySQL(next),
             category: 'hour',
         };
-        console.log(eventRecord);
+
         try {
             const eventResultDTO = await get_sale_information(eventRecord);
             values.push(eventResultDTO.result ? Number(eventResultDTO.values.sales) : 0);

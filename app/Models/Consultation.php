@@ -10,8 +10,11 @@ class Consultation extends Model
     use HasFactory;
 
     protected $fillable = [
+        'doctor_id',
+        'patient_id',
         'consultation_date',
         'reason_for_consultation',
+        'allergies',
         'blood_pressure',
         'heart_rate',
         'respiratory_rate',
@@ -33,8 +36,11 @@ class Consultation extends Model
     ];
 
     protected $casts = [
+        'doctor_id' => 'integer',
+        'patient_id' => 'integer',
         'consultation_date' => 'timestamp',
         'reason_for_consultation' => 'string',
+        'allergies' => 'string',
         'blood_pressure' => 'string',
         'heart_rate' => 'string',
         'respiratory_rate' => 'string',
@@ -49,7 +55,7 @@ class Consultation extends Model
         'diagnosis' => 'string',
         'treatment' => 'string',
         'follow_up_instructions' => 'string',
-        'notes' => 'text',
+        'notes' => 'string',
         'is_active' => 'boolean',
         'is_suspended' => 'boolean',
         'is_deleted' => 'boolean',

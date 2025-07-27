@@ -1,0 +1,25 @@
+.doctor-suggestions,
+.patient-suggestions {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    max-height: 220px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0 0 0.375rem 0.375rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.doctor-suggestion-item,
+.patient-suggestion-item {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.doctor-suggestion-item:hover,
+.patient-suggestion-item:hover,
+.doctor-suggestion-item.active,
+.patient-suggestion-item.active {
+    background: #f1f3f5;
+}

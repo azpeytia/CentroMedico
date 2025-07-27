@@ -15,6 +15,18 @@ import {
     swalResponse
 } from './helpers/swalHelper';
 
+// Archivos internos de servicios Region consultas
+import {
+    save_consultation_information,
+} from './services/consultationService';
+// Endregion consultas
+
+// Archivos internos de servicios Region doctores
+import {
+    search_doctor_information,
+} from './services/doctorService';
+// Endregion doctores
+
 // Archivos internos de servicios Region inventario
 import {
     save_shift_inventory_information,
@@ -59,6 +71,7 @@ import {
 // Endregion turnos
 
 // Archivos internos de páginas
+import './pages/consultations/consultation';
 import './pages/inventory-by-shift';
 import './pages/inventory-requisition';
 import './pages/restock-inventory';
@@ -72,6 +85,14 @@ window.Swal = Swal;
 window.swalResponse = swalResponse;
 window.ExcelJS = ExcelJS;
 window.Chart = Chart;
+
+// Configuración global Region consultas
+window.save_consultation_information = save_consultation_information;
+// Endregion consultas
+
+// Configuración global Region doctores
+window.search_doctor_information = search_doctor_information;
+// Endregion doctores
 
 // Configuración global Region inventarios
 window.save_shift_inventory_information = save_shift_inventory_information;
