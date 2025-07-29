@@ -23,3 +23,44 @@
 .patient-suggestion-item.active {
     background: #f1f3f5;
 }
+
+textarea::placeholder {
+    font-style: italic;
+    color: #6c757d;
+    opacity: 1;
+}
+
+input[type="text"]::placeholder {
+    color: #adb5bd;
+    opacity: 1;
+}
+
+/* Encabezado destacado para el formulario de consulta */
+.consultation-header {
+    color: #1A5938; /* Verde oscuro usado en botones y footer */
+    border-bottom: 2px solid #2E8B57;
+    border-image: linear-gradient(to right, #2E8B57, #E07A55) 1;
+    font-size: 1.7rem;
+    font-weight: 800;
+    padding-bottom: 0.3rem;
+    margin-bottom: 1.7rem;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: none;
+}
+
+/* Color para tabs inactivos */
+.nav-tabs .nav-link {
+    background-color: #f0f0f0; /* Cambia este color al que prefieras */
+    color: #333;
+    border: 1px solid #dee2e6;
+}
+
+/* Color para tab activo */
+.nav-tabs .nav-link.active {
+    background-color: #007bff; /* Cambia este color al que prefieras */
+    color: #fff;
+    border-color: #007bff #007bff #fff;
+}

@@ -3,109 +3,133 @@
 @section('title', 'Consultas')
 
 @section('content')
-    <div class="container" id="consultations-create">
-        <h3>{{ __('Crear Consulta') }}</h3>
+    <div class="container py-1" id="consultations-create">
+        <h3 class="consultation-header">
+            <i class="bi bi-journal-medical me-2"></i>
+            {{ __('Crear Consulta') }}
+        </h3>
         <form class="needs-validation" action="#" novalidate>
-            <ul class="nav nav-tabs mb-3" id="consultationTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">Información Básica</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="vitals-tab" data-bs-toggle="tab" data-bs-target="#vitals" type="button" role="tab">Signos Vitales</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab">Historial</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="diagnosis-tab" data-bs-toggle="tab" data-bs-target="#diagnosis" type="button" role="tab">Diagnóstico</button>
-            </li>
-        </ul>
+            {{-- Navegación por Tabs --}}
+            <ul class="nav nav-tabs mb-1" id="consultationTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">
+                        <i class="bi bi-person-vcard me-1"></i>
+                        Información Básica
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="vitals-tab" data-bs-toggle="tab" data-bs-target="#vitals" type="button" role="tab">
+                        <i class="bi bi-heart-pulse me-1"></i>
+                        Signos Vitales
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab">
+                        <i class="bi bi-clock-history me-1"></i>
+                        Historial
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="diagnosis-tab" data-bs-toggle="tab" data-bs-target="#diagnosis" type="button" role="tab">
+                        <i class="bi bi-clipboard2-pulse me-1"></i>
+                        Diagnóstico
+                    </button>
+                </li>
+            </ul>
 
-        <div class="tab-content border p-4 bg-light rounded shadow-sm" id="consultationTabsContent">
-            {{-- Tab 1: Información Básica --}}
-            <div class="tab-pane fade show active" id="basic" role="tabpanel">
-                <div class="row g-3">
-                    <div class="col-md-6" id="divConsultationDoctor">
-                        <x-shared.doctor-input />
-                    </div>
-                    <div class="col-md-6" id="divConsultationPatient">
-                        <x-shared.patient-input />
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label">Razón de la consulta</label>
-                        <textarea id="reason_for_consultation" class="form-control" name="reason_for_consultation" rows="2"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Tab 2: Signos Vitales --}}
-            <div class="tab-pane fade" id="vitals" role="tabpanel">
-                <div class="row g-3">
-                    @foreach([
-                        'blood_pressure' => 'Presión arterial',
-                        'heart_rate' => 'Latidos por minuto',
-                        'respiratory_rate' => 'Respiraciones por minuto',
-                        'oxygen_saturation' => 'Saturación de oxígeno',
-                        'temperature' => 'Temperatura (°C)',
-                        'weight' => 'Peso (kg)',
-                        'height' => 'Altura (cm)'
-                    ] as $name => $label)
-                        <div class="col-md-4">
-                            <label class="form-label">{{ $label }}</label>
-                            <input type="text" class="form-control" name="{{ $name }}">
+            <div class="tab-content border px-4 pt-2 pb-4 bg-light rounded shadow-sm" id="consultationTabsContent">
+                {{-- Tab 1: Información Básica --}}
+                <div class="tab-pane fade show active" id="basic" role="tabpanel">
+                    <div class="row g-3">
+                        <div class="col-md-6" id="divConsultationDoctor">
+                            <x-shared.doctor-input />
                         </div>
-                    @endforeach
+                        <div class="col-md-6" id="divConsultationPatient">
+                            <x-shared.patient-input />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Razón de la consulta</label>
+                            <textarea id="reason_for_consultation" class="form-control" name="reason_for_consultation" rows="2" placeholder="Describa brevemente el motivo de la consulta..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Tab 2: Signos Vitales --}}
+                <div class="tab-pane fade" id="vitals" role="tabpanel">
+                    <div class="row g-3">
+                        @foreach([
+                            'blood_pressure' => ['Presión arterial', 'mmHg'],
+                            'heart_rate' => ['Latidos por minuto', 'lpm'],
+                            'respiratory_rate' => ['Respiraciones por minuto', 'rpm'],
+                            'oxygen_saturation' => ['Saturación de oxígeno', '%'],
+                            'temperature' => ['Temperatura', '°C'],
+                            'weight' => ['Peso', 'kg'],
+                            'height' => ['Altura', 'cm'],
+                        ] as $name => [$label, $unit])
+                            <div class="col-md-4">
+                                <x-shared.input 
+                                    type="number" 
+                                    :name="$name" 
+                                    :label="$label" 
+                                    :placeholder="$label" 
+                                    step="any" 
+                                    :unit="$unit" 
+                                />
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                {{-- Tab 3: Historial Médico y Familiar --}}
+                <div class="tab-pane fade" id="history" role="tabpanel">
+                    <div class="row g-3">
+                        @foreach([
+                            'allergies' => 'Alergias',
+                            'medications' => 'Medicamentos actuales',
+                            'medical_conditions' => 'Condiciones médicas',
+                            'medical_history' => 'Historial médico',
+                            'family_history' => 'Historial familiar',
+                        ] as $name => $label)
+                            <div class="col-12">
+                                <x-shared.textarea 
+                                    :name="$name" 
+                                    :label="$label" 
+                                    rows="2" 
+                                    :placeholder="'Ingrese información sobre ' . strtolower($label) . '...'"
+                                />
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                {{-- Tab 4: Diagnóstico y Tratamiento --}}
+                <div class="tab-pane fade" id="diagnosis" role="tabpanel">
+                    <div class="row g-3">
+                        @foreach([
+                            'diagnosis' => 'Diagnóstico',
+                            'treatment' => 'Tratamiento',
+                            'follow_up_instructions' => 'Instrucciones de seguimiento',
+                            'notes' => 'Notas adicionales',
+                        ] as $name => $label)
+                            <div class="col-12">
+                                <x-shared.textarea 
+                                    :name="$name" 
+                                    :label="$label" 
+                                    :rows="$name === 'notes' ? 3 : 2" 
+                                    :placeholder="'Ingrese ' . strtolower($label) . '...'"
+                                />
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
 
-            {{-- Tab 3: Historial Médico y Familiar --}}
-            <div class="tab-pane fade" id="history" role="tabpanel">
-                <div class="mb-3">
-                    <label class="form-label">Alergias</label>
-                    <textarea class="form-control" name="allergies" rows="2"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Medicamentos actuales</label>
-                    <textarea class="form-control" name="medications" rows="2"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Condiciones médicas</label>
-                    <textarea class="form-control" name="medical_conditions" rows="2"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Historial médico</label>
-                    <textarea class="form-control" name="medical_history" rows="2"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Historial familiar</label>
-                    <textarea class="form-control" name="family_history" rows="2"></textarea>
-                </div>
+            <div class="mt-4 text-end">
+                <x-shared.save-button>
+                    Salvar
+                </x-shared.save-button>
+                <a href="{{ route('dashboard') }}" class="btn btn-secondary">Cancelar</a>
             </div>
-
-            {{-- Tab 4: Diagnóstico y Tratamiento --}}
-            <div class="tab-pane fade" id="diagnosis" role="tabpanel">
-                <div class="mb-3">
-                    <label class="form-label">Diagnóstico</label>
-                    <textarea class="form-control" name="diagnosis" rows="2"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Tratamiento</label>
-                    <textarea class="form-control" name="treatment" rows="2"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Seguimiento</label>
-                    <textarea class="form-control" name="follow_up_instructions" rows="2"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Notas</label>
-                    <textarea class="form-control" name="notes" rows="3"></textarea>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-4 text-end">
-            <button type="submit" class="btn btn-primary">Guardar Consulta</button>
-        </div>
         </form>
     </div>
 @endsection

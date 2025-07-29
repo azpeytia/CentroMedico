@@ -1,0 +1,11 @@
+@props([
+    'type' => 'submit',
+    'icon' => 'bi-save',
+    'label' => 'Salvar',
+])
+
+<button type="{{ $type }}"
+    {{ $attributes->merge(['class' => 'btn btn-primary shadow-sm d-inline-flex align-items-center gap-2']) }}>
+    <i class="bi {{ $icon }}"></i>
+    {{ trim($slot) ?: $label }}
+</button>
