@@ -4,6 +4,7 @@ use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
@@ -64,6 +65,12 @@ Route::middleware('auth')->group(function () {
         Route::get('load-product-information', [ProductController::class, 'loadProductInformation'])->name('load_product_information');
         Route::get('search-product-information', [ProductController::class, 'searchProductInformation'])->name('search_product_information');
         Route::patch('update-product-stock', [ProductController::class, 'updateProductStock'])->name('update_product_stock');
+    });
+
+    // Recetas
+    Route::prefix('prescriptions')->name('prescriptions.')->group(function () {
+        Route::get('create', [PrescriptionController::class, 'create'])->name('create');
+        Route::post('save-prescription-information', [PrescriptionController::class, 'savePrescriptionInformation'])->name('save_prescription_information');
     });
 
     // Turnos

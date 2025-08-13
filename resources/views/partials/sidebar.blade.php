@@ -123,6 +123,18 @@
         <a class="nav-link" href="#">
             <i class="bi bi-prescription"></i> Recetas
         </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('prescriptions.create') }}">
+                    <i class="bi bi-file-earmark-medical"></i> Crear receta
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-card-list"></i> Lista de recetas
+                </a>
+            </li>
+        </ul>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="#">

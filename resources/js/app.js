@@ -74,6 +74,7 @@ import {
 import './pages/consultations/consultation';
 import './pages/inventory-by-shift';
 import './pages/inventory-requisition';
+import './pages/prescriptions/prescription';
 import './pages/restock-inventory';
 import './pages/shift-management';
 import './pages/sale';
