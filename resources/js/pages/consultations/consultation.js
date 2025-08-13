@@ -36,7 +36,7 @@ function initializeValidation() {
         const nameMap = {
             'inputConsultationDoctor': 'doctorName',
             'doctor_id': 'doctor_id',
-            'inputConsultationPatient': 'patientName',
+            'inputPatient': 'patientName',
             'patient_id': 'patient_id',
             'consultation_date': 'consultation_date',
             'reason_for_consultation': 'reason_for_consultation',
@@ -139,9 +139,9 @@ function setInitialInputValues() {
     document.getElementById('inputConsultationDoctor').value = '';
     document.getElementById('inputConsultationDoctor').placeholder = 'Buscar doctor...';
     document.querySelector('.inputConsultationDoctorId').value = '';
-    document.getElementById('inputConsultationPatient').value = '';
-    document.getElementById('inputConsultationPatient').placeholder = 'Buscar paciente...';
-    document.querySelector('.inputConsultationPatientId').value = '';
+    document.getElementById('inputPatient').value = '';
+    document.getElementById('inputPatient').placeholder = 'Buscar paciente...';
+    document.querySelector('.inputPatientId').value = '';
     document.getElementById('reason_for_consultation').value = '';
     document.getElementById('reason_for_consultation').placeholder = 'Entrevista...';
 }
@@ -197,7 +197,7 @@ function updateDoctorSuggestions(eventResultDTO) {
 }
 
 function searchPatient() {
-    document.getElementById('inputConsultationPatient').addEventListener('input', async function(event) {
+    document.getElementById('inputPatient').addEventListener('input', async function(event) {
         event.preventDefault();
         const patientName = this.value;
 
@@ -232,8 +232,8 @@ function updatePatientSuggestions(eventResultDTO) {
         item.dataset.patientId = patient.id;
 
         item.addEventListener('click', function() {
-            document.getElementById('inputConsultationPatient').value = patient.name;
-            document.querySelector('.inputConsultationPatientId').value = patient.id;
+            document.getElementById('inputPatient').value = patient.name;
+            document.querySelector('.inputPatientId').value = patient.id;
             dropdown.innerHTML = '';
         });
 

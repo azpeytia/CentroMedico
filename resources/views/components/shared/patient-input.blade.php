@@ -1,12 +1,14 @@
-<div class="row g-2 align-items-center">
-    <div class="col-12">
-        <label for="inputConsultationPatient" class="form-label">Paciente</label>
-        <input id="inputConsultationPatient" type="text" class="inputConsultationPatient form-control" name="inputConsultationPatient" required>
-        <div id="patientSuggestions" class="patient-suggestions mt-2">
-            <!-- Aquí se mostrarán las sugerencias de pacientes -->
-        </div>
-    </div>
-    <div class="d-none">
-        <input type="hidden" name="patient_id" class="inputConsultationPatientId" value="">
-    </div>
+<div class="mb-3 position-relative">
+    <label for="inputPatient" class="form-label">Paciente</label>
+    <input
+        id="inputPatient"
+        type="text"
+        class="form-control"
+        name="inputPatient"
+        placeholder="Buscar paciente..."
+        autocomplete="off"
+    >
+    <input id="inputPatientId" type="hidden" value="">
+    
+    <div id="patientSuggestions" class="patient-suggestions mt-1"></div>
 </div>

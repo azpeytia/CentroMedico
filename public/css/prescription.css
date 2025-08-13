@@ -1,0 +1,28 @@
+.doctor-suggestions,
+.patient-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 1050;
+
+    background-color: #fff;
+    border: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6);
+    border-radius: 0 0 var(--bs-border-radius, 0.375rem) var(--bs-border-radius, 0.375rem);
+    box-shadow: var(--bs-box-shadow-sm, 0 2px 8px rgba(0,0,0,0.05));
+}
+
+.doctor-suggestion-item,
+.patient-suggestion-item {
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.doctor-suggestion-item:hover,
+.doctor-suggestion-item.active,
+.patient-suggestion-item:hover,
+.patient-suggestion-item.active {
+    background-color: var(--bs-light, #f8f9fa);
+}
