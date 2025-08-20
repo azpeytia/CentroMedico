@@ -10,6 +10,9 @@ class Prescription extends Model
     use HasFactory;
 
     protected $fillable = [
+        'doctor_id',
+        'patient_id',
+        'consultation_id',
         'notes',
         'prescription_date',
         'is_active',
@@ -18,7 +21,10 @@ class Prescription extends Model
     ];
 
     protected $casts = [
-        'notes' => 'text',
+        'doctor_id' => 'integer',
+        'patient_id' => 'integer',
+        'consultation_id' => 'integer',
+        'notes' => 'string',
         'prescription_date' => 'timestamp',
         'is_active' => 'boolean',
         'is_suspended' => 'boolean',
