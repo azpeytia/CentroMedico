@@ -38,7 +38,9 @@ Route::middleware('auth')->group(function () {
 
     // Doctores
     Route::prefix('doctors')->name('doctors.')->group(function () {
+        Route::get('create', [DoctorController::class, 'create'])->name('create');
         Route::get('search-doctor-information', [DoctorController::class, 'searchDoctorInformation'])->name('search_doctor_information');
+        Route::post('save-doctor-information', [DoctorController::class, 'saveDoctorInformation'])->name('save_doctor_information');
     });
 
     // Inventarios

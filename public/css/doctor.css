@@ -1,0 +1,119 @@
+#doctors-create {
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    background: linear-gradient(135deg, #FFDEAD 0%, #FAFAEC 100%);
+    min-height: 100vh;
+}
+
+.doctor-header {
+    color: #2563eb;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 8px rgba(37,99,235,0.08);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card {
+    border-radius: 1.25rem;
+    border: none;
+    background: linear-gradient(135deg, #FFF8E1 0%, #FAFAEC 100%);
+    box-shadow: 0 6px 32px 0 rgba(223, 170, 90, 0.10), 0 1.5px 6px 0 rgba(0,0,0,0.04);
+}
+
+.form-label {
+    color: #1e293b;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.form-control {
+    border-radius: 0.75rem;
+    border: 1.5px solid #cbd5e1;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    background: #f1f5f9;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px #2563eb33;
+    background: #fff;
+}
+
+
+/* Unificar tamaño y estilo de ambos botones */
+.btn-primary, .btn.btn-primary, x-shared.save-button button, .btn-cancel {
+    min-width: 140px;
+    padding: 0.75rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px 0 rgba(223, 170, 90, 0.10);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+}
+
+/* Botón Salvar: gradiente más uniforme y cálido */
+.btn-primary, .btn.btn-primary, x-shared.save-button button {
+    background: linear-gradient(90deg, #ECA047 0%, #D16641 100%);
+    color: #fff;
+}
+.btn-primary:hover, .btn.btn-primary:hover, x-shared.save-button button:hover {
+    background: linear-gradient(90deg, #D16641 0%, #ECA047 100%);
+    color: #fff;
+    box-shadow: 0 4px 16px 0 rgba(223, 170, 90, 0.15);
+}
+
+/* Botón Cancelar: color más neutro y cálido */
+.btn-cancel {
+    background: #E3D5B8;
+    color: #B03A2D;
+}
+.btn-cancel:hover {
+    background: #D16641;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 1.5rem 0.5rem;
+    }
+    .doctor-header {
+        font-size: 1.25rem;
+    }
+    .d-flex.flex-md-row {
+        flex-direction: column !important;
+    }
+    .w-md-auto {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .doctor-header {
+        font-size: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .card {
+        padding: 1rem 0.25rem;
+    }
+    .form-label {
+        font-size: 0.95rem;
+    }
+    .form-control {
+        font-size: 0.95rem;
+        padding: 0.5rem 0.75rem;
+    }
+    .btn-primary, .btn.btn-primary, x-shared.save-button button, .btn-cancel {
+        font-size: 0.95rem;
+        padding: 0.5rem 1.5rem;
+    }
+}

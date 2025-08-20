@@ -23,6 +23,7 @@ import {
 
 // Archivos internos de servicios Region doctores
 import {
+    save_doctor_data,
     search_doctor_information,
 } from './services/doctorService';
 // Endregion doctores
@@ -72,6 +73,7 @@ import {
 
 // Archivos internos de páginas
 import './pages/consultations/consultation';
+import './pages/doctors/doctor';
 import './pages/inventory-by-shift';
 import './pages/inventory-requisition';
 import './pages/prescriptions/prescription';
