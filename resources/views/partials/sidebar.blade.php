@@ -23,6 +23,18 @@
                 <a class="nav-link" href="#">
                     <i class="bi bi-person-badge"></i> Doctores
                 </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('doctors.create') }}">
+                            <i class="bi bi-person-plus"></i> Crear doctor
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-card-list"></i> Lista de doctores
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
