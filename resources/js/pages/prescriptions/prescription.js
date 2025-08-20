@@ -1,3 +1,5 @@
+import { save_prescription_data } from "../../services/prescriptionService";
+
 document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('prescriptions-create')) {
         initializePage();
@@ -8,8 +10,6 @@ function initializePage() {
     setInitialInputValues();
     setFocusInputPatient();
     searchPatient();
-    searchProduct();
-    initPrescriptionRowEvents();
     savePrescription();
 }
 
@@ -69,127 +69,6 @@ function updatePatientSuggestions(eventResultDTO) {
     dropdown.appendChild(list);
 }
 
-function searchProduct() {
-    // Delegación de eventos: escucha en el contenedor de productos
-    const container = document.getElementById('products-container');
-    container.addEventListener('input', async function(event) {
-        const target = event.target;
-        if (target && target.matches('input[name="inputPrescriptionProducts"]')) {
-            event.preventDefault();
-            const productName = target.value;
-
-            if (productName.length >= 3) {
-                try {
-                    const eventResultDTO = await search_product_information(productName);
-
-                    // Buscar el dropdown de sugerencias relativo a este input
-                    const dropdown = target.closest('.flex-fill').querySelector('.product-suggestions');
-                    updateProductSuggestions(eventResultDTO, dropdown, target);
-                } catch (error) {
-                    swalResponse(error);
-                }
-            } else {
-                // Limpiar sugerencias si hay menos de 3 caracteres
-                const dropdown = target.closest('.flex-fill').querySelector('.product-suggestions');
-                if (dropdown) dropdown.innerHTML = '';
-            }
-        }
-    });
-}
-
-function updateProductSuggestions(eventResultDTO, dropdown, inputElement) {
-    if (!dropdown) return;
-    dropdown.innerHTML = '';
-
-    if (!eventResultDTO.result || !eventResultDTO.values.productRecords.length) {
-        dropdown.innerHTML = '<div class="text-muted px-2 py-1">No se encontraron productos</div>';
-        return;
-    }
-
-    // Obtener los nombres de productos ya seleccionados en todos los inputs excepto el actual
-    const allInputs = Array.from(document.querySelectorAll('input[name="inputPrescriptionProducts"]'));
-    const selectedNames = allInputs
-        .filter(input => input !== inputElement && input.value.trim() !== '')
-        .map(input => input.value.trim().toLowerCase());
-
-    // Filtrar productos ya seleccionados
-    const filteredProducts = eventResultDTO.values.productRecords.filter(product => {
-        return !selectedNames.includes(product.name.trim().toLowerCase());
-    });
-
-    if (!filteredProducts.length) {
-        dropdown.innerHTML = '<div class="text-muted px-2 py-1">No hay productos disponibles</div>';
-        return;
-    }
-
-    const list = document.createElement('ul');
-    list.className = 'list-group';
-
-    filteredProducts.forEach(product => {
-        const item = document.createElement('li');
-        item.className = 'list-group-item list-group-item-action product-suggestion-item';
-        item.textContent = product.name;
-        item.dataset.productId = product.id;
-
-        item.addEventListener('click', function() {
-            inputElement.value = product.name;
-            dropdown.innerHTML = '';
-        });
-
-        list.appendChild(item);
-    });
-
-    dropdown.appendChild(list);
-}
-
-function initPrescriptionRowEvents() {
-    const container = document.getElementById('products-container');
-
-    container.addEventListener('click', function (e) {
-        const addBtn = e.target.closest('.prescription-add-product-button');
-        const removeBtn = e.target.closest('.prescription-remove-product-button');
-
-        if (addBtn) {
-            const currentRow = addBtn.closest('.product-main-row');
-            const inputs = currentRow.querySelectorAll('input[name="inputPrescriptionProducts"]');
-
-            // Validar que todos los inputs en la fila actual tengan datos
-            const allInputsFilled = Array.from(inputs).every(input => input.value.trim() !== '');
-
-            if (!allInputsFilled) {
-                swalResponse({
-                    result: false,
-                    message: 'Por favor, completa todos los campos de producto antes de agregar uno nuevo.'
-                });
-                return;
-            }
-
-            const clone = currentRow.cloneNode(true); // copia profunda
-
-            // Limpia valores de todos los inputs del clon
-            clone.querySelectorAll('input').forEach(input => {
-                input.value = '';
-            });
-
-            // Habilita el botón "eliminar"
-            const cloneRemoveBtn = clone.querySelector('.prescription-remove-product-button');
-            if (cloneRemoveBtn) {
-                cloneRemoveBtn.disabled = false;
-            }
-
-            container.appendChild(clone);
-        }
-
-        if (removeBtn) {
-            const rows = container.querySelectorAll('.product-main-row');
-            if (rows.length > 1) {
-                const currentRow = removeBtn.closest('.product-main-row');
-                currentRow.remove();
-            }
-        }
-    });
-}
-
 function savePrescription(){
     const saveButton = document.getElementById('saveButton');
 
@@ -203,25 +82,37 @@ function savePrescription(){
             swalResponse({ result: false, message: 'Debe seleccionar un paciente.' });
             return;
         }
-console.log('Patient ID:', patientId);
-        const products = Array.from(document.querySelectorAll('input[name="inputPrescriptionProducts"]'))
-            .map(input => input.value.trim())
-            .filter(value => value !== '');
-console.log('Products:', products);
-        if (products.length === 0) {
-            swalResponse({ result: false, message: 'Debe agregar al menos un producto.' });
+
+        const medicalNotes = document.querySelector('textarea[name="medical_notes"]').value.trim();
+        if (!medicalNotes) {
+            swalResponse({ result: false, message: 'Debe ingresar notas médicas.' });
             return;
         }
 
-        /* try {
-            const response = await save_prescription(patientId, products);
-            swalResponse(response);
-            if (response.result) {
-                // Redirigir o limpiar formulario si es necesario
-                window.location.href = '/prescriptions';
+        const mysqlDateValue = document.getElementById('mysql_date');
+        const prescriptionData = {
+            doctor_id: 1,
+            patient_id: patientId,
+            consultation_id: 1,
+            notes: medicalNotes,
+            prescription_date: mysqlDateValue.value,
+        };
+
+        try {
+            const eventResultDTO = await save_prescription_data(prescriptionData);
+            console.log(eventResultDTO);
+            if (eventResultDTO.result) {
+                swalResponse(eventResultDTO);
+                redirectToHome();
+            } else {
+                swalResponse(eventResultDTO);
             }
         } catch (error) {
             swalResponse(error);
-        } */
+        }
     });
+}
+
+function redirectToHome() {
+    window.location.href = window.dashboardUrl;
 }

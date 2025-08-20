@@ -53,13 +53,10 @@ import {
 } from './services/productService';
 // Endregion productos
 
-// Archivos internos de servicios Region ventas
+// Archivos internos de servicios Region recetas
 import {
-    get_sale_information,
-    get_sale_information_by_shift,
-    save_sale_information,
-} from './services/saleService';
-// Endregion ventas
+    save_prescription_data,
+} from './services/prescriptionService';
 
 // Archivos internos de servicios Region turnos
 import {
@@ -70,6 +67,14 @@ import {
     update_previous_shift_status,
 } from './services/shiftService';
 // Endregion turnos
+
+// Archivos internos de servicios Region ventas
+import {
+    get_sale_information,
+    get_sale_information_by_shift,
+    save_sale_information,
+} from './services/saleService';
+// Endregion ventas
 
 // Archivos internos de páginas
 import './pages/consultations/consultation';
