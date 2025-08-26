@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DTOs\EventResultDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Prescriptions\SavePrescriptionInformationRequest;
+use App\Models\Product;
 use App\Services\PrescriptionService;
 use Illuminate\Http\JsonResponse;
 
@@ -19,7 +20,8 @@ class PrescriptionController extends Controller
 
     public function create()
     {
-        return view('prescriptions.create');
+        $products = Product::all();
+        return view('prescriptions.create', compact('products'));
     }
 
     /**
