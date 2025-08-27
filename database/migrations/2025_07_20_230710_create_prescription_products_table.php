@@ -14,15 +14,12 @@ return new class extends Migration
         Schema::create('prescription_products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('prescription_id');
-            $table->unsignedBigInteger('product_id');
-            $table->integer('quantity')->default(1);
-            $table->string('dosage');
-            $table->string('frequency');
-            $table->string('duration');
+            $table->string('product');
             $table->text('instructions')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_suspended')->default(false);
+            $table->boolean('is_deleted')->default(false);
             $table->foreign('prescription_id')->references('id')->on('prescriptions')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });
     }

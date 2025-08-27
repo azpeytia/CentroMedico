@@ -138,10 +138,10 @@ function showSuccessToast(message) {
 function setInitialInputValues() {
     document.getElementById('inputConsultationDoctor').value = '';
     document.getElementById('inputConsultationDoctor').placeholder = 'Buscar doctor...';
-    document.querySelector('.inputConsultationDoctorId').value = '';
+    document.getElementById('inputConsultationDoctorId').value = '';
     document.getElementById('inputPatient').value = '';
     document.getElementById('inputPatient').placeholder = 'Buscar paciente...';
-    document.querySelector('.inputPatientId').value = '';
+    document.getElementById('inputPatientId').value = '';
     document.getElementById('reason_for_consultation').value = '';
     document.getElementById('reason_for_consultation').placeholder = 'Entrevista...';
 }
@@ -158,6 +158,7 @@ function searchDoctor() {
         if (doctorName.length >= 3) {
             try {
                 const eventResultDTO = await search_doctor_information(doctorName);
+                console.log(eventResultDTO);
                 updateDoctorSuggestions(eventResultDTO);
             } catch (error) {
                 swalResponse(error);
@@ -186,7 +187,7 @@ function updateDoctorSuggestions(eventResultDTO) {
 
         item.addEventListener('click', function() {
             document.getElementById('inputConsultationDoctor').value = doctor.name;
-            document.querySelector('.inputConsultationDoctorId').value = doctor.id;
+            document.getElementById('inputConsultationDoctorId').value = doctor.id;
             dropdown.innerHTML = '';
         });
 
@@ -233,7 +234,7 @@ function updatePatientSuggestions(eventResultDTO) {
 
         item.addEventListener('click', function() {
             document.getElementById('inputPatient').value = patient.name;
-            document.querySelector('.inputPatientId').value = patient.id;
+            document.getElementById('inputPatientId').value = patient.id;
             dropdown.innerHTML = '';
         });
 
