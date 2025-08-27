@@ -55,13 +55,6 @@ class Product extends Model
         return $this->hasMany(Inventory::class);
     }
 
-    public function prescriptions()
-    {
-        return $this->belongsToMany(Prescription::class)
-            ->withPivot(['quantity', 'instructions'])
-            ->withTimestamps();
-    }
-
     public function saleProducts()
     {
         return $this->hasMany(SaleProduct::class);

@@ -7,6 +7,6 @@
         </div>
     </div>
     <div class="d-none">
-        <input type="hidden" name="doctor_id" class="inputConsultationDoctorId" value="">
+        <input id="inputConsultationDoctorId" type="hidden" name="doctor_id" value="">
     </div>
 </div>

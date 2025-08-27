@@ -10,34 +10,28 @@ class PrescriptionProduct extends Model
     use HasFactory;
 
     protected $fillable = [
-        'quantity',
-        'dosage',
-        'frequency',
-        'duration',
+        'product',
         'instructions',
         'is_active',
+        'is_suspended',
+        'is_deleted',
     ];
 
     protected $casts = [
-        'quantity' => 'integer',
-        'dosage' => 'string',
-        'frequency' => 'string',
-        'duration' => 'string',
         'instructions' => 'text',
         'is_active' => 'boolean',
+        'is_suspended' => 'boolean',
+        'is_deleted' => 'boolean',
     ];
 
     protected $attributes = [
         'is_active' => true,
+        'is_suspended' => false,
+        'is_deleted' => false,
     ];
 
     public function prescription()
     {
         return $this->belongsTo(Prescription::class);
-    }
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
     }
 }

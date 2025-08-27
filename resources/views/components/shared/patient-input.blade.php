@@ -8,7 +8,7 @@
         placeholder="Buscar paciente..."
         autocomplete="off"
     >
-    <input id="inputPatientId" type="hidden" value="">
-    
+    <input id="inputPatientId" type="hidden" name="patient_id" value="">
+
     <div id="patientSuggestions" class="patient-suggestions mt-1"></div>
 </div>
